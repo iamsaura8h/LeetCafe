@@ -3,7 +3,7 @@ import React from 'react';
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
 import ProblemOfTheDay from '@/components/ProblemOfTheDay';
-import WallOfFame from '@/components/WallOfFame';
+import LeetPool from '@/components/LeetPool';
 import Menu from '@/components/Menu';
 import CafeSpace from '@/components/CafeSpace';
 import Footer from '@/components/Footer';
@@ -17,7 +17,7 @@ const Index = () => {
         <Menu />
         <CafeSpace />
         <ProblemOfTheDay />
-        <WallOfFame />
+        <LeetPool />
       </main>
       <Footer />
     </div>
