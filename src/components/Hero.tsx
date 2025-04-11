@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge"; // Add this import
 import { ArrowRight, Code, Coffee, Laptop, Utensils } from 'lucide-react';
 import BinaryPassword from './BinaryPassword';
 
