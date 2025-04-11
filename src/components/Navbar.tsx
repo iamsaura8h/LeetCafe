@@ -1,19 +1,33 @@
 
 import React from 'react';
-import { Code2, Coffee, Menu, X } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Code2, Coffee, Menu, X, User, LogOut } from 'lucide-react';
 import { Button } from "@/components/ui/button";
+import { useAuth } from '@/contexts/AuthContext';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const { user, profile, signOut } = useAuth();
   
   return (
     <nav className="py-4 border-b border-border">
       <div className="container flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <Coffee className="h-6 w-6 text-amber-500" />
-          <span className="text-xl font-mono font-bold">
-            Leet<span className="text-code-blue">Cafe</span>
-          </span>
+          <Link to="/" className="flex items-center gap-2">
+            <Coffee className="h-6 w-6 text-amber-500" />
+            <span className="text-xl font-mono font-bold">
+              Leet<span className="text-code-blue">Cafe</span>
+            </span>
+          </Link>
         </div>
         
         <div className="hidden md:flex items-center gap-8">
@@ -29,14 +43,47 @@ const Navbar = () => {
           <a href="#problem" className="text-muted-foreground hover:text-foreground transition-colors">
             Problem of the Day
           </a>
-          <a href="#wall-of-fame" className="text-muted-foreground hover:text-foreground transition-colors">
-            Wall of Fame
+          <a href="#leetpool" className="text-muted-foreground hover:text-foreground transition-colors">
+            LeetPool
           </a>
         </div>
         
-        <Button className="hidden md:flex gap-2 bg-amber-500 hover:bg-amber-600 text-white">
-          <Coffee className="h-4 w-4" /> Visit Us
-        </Button>
+        <div className="hidden md:flex gap-2">
+          {user ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="relative h-10 w-10 rounded-full">
+                  <Avatar className="h-10 w-10">
+                    <AvatarImage src={profile?.avatar_url} alt={profile?.username} />
+                    <AvatarFallback>{profile?.username?.substring(0, 2).toUpperCase()}</AvatarFallback>
+                  </Avatar>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-56" align="end" forceMount>
+                <DropdownMenuLabel className="font-normal">
+                  <div className="flex flex-col space-y-1">
+                    <p className="text-sm font-medium leading-none">{profile?.full_name}</p>
+                    <p className="text-xs leading-none text-muted-foreground">@{profile?.username}</p>
+                  </div>
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={() => signOut()}>
+                  <LogOut className="mr-2 h-4 w-4" />
+                  <span>Log out</span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <>
+              <Button variant="ghost" onClick={() => window.location.href = '/signin'}>
+                Sign in
+              </Button>
+              <Button className="bg-amber-500 hover:bg-amber-600 text-white" onClick={() => window.location.href = '/signup'}>
+                <User className="h-4 w-4 mr-2" /> Sign up
+              </Button>
+            </>
+          )}
+        </div>
         
         <Button 
           variant="ghost" 
@@ -80,15 +127,46 @@ const Navbar = () => {
               Problem of the Day
             </a>
             <a 
-              href="#wall-of-fame" 
+              href="#leetpool" 
               className="py-2 px-4 hover:bg-secondary rounded-md"
               onClick={() => setIsMenuOpen(false)}
             >
-              Wall of Fame
+              LeetPool
             </a>
-            <Button className="w-full flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-600 text-white">
-              <Coffee className="h-4 w-4" /> Visit Us
-            </Button>
+            
+            {user ? (
+              <div className="flex items-center justify-between border-t border-border pt-4">
+                <div className="flex items-center gap-3">
+                  <Avatar className="h-10 w-10">
+                    <AvatarImage src={profile?.avatar_url} alt={profile?.username} />
+                    <AvatarFallback>{profile?.username?.substring(0, 2).toUpperCase()}</AvatarFallback>
+                  </Avatar>
+                  <div>
+                    <p className="text-sm font-medium">{profile?.full_name}</p>
+                    <p className="text-xs text-muted-foreground">@{profile?.username}</p>
+                  </div>
+                </div>
+                <Button variant="ghost" size="sm" onClick={() => signOut()}>
+                  <LogOut className="h-4 w-4 mr-2" /> Logout
+                </Button>
+              </div>
+            ) : (
+              <div className="flex flex-col gap-2 border-t border-border pt-4">
+                <Button 
+                  className="w-full justify-center" 
+                  variant="outline"
+                  onClick={() => window.location.href = '/signin'}
+                >
+                  Sign in
+                </Button>
+                <Button 
+                  className="w-full justify-center bg-amber-500 hover:bg-amber-600 text-white"
+                  onClick={() => window.location.href = '/signup'}
+                >
+                  <User className="h-4 w-4 mr-2" /> Sign up
+                </Button>
+              </div>
+            )}
           </div>
         </div>
       )}

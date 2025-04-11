@@ -1,15 +1,15 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Code, KeyRound } from 'lucide-react';
+import { Code, KeyRound, Loader2 } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
 
 const formSchema = z.object({
   username: z.string().min(1, { message: "Username is required" }),
@@ -18,6 +18,8 @@ const formSchema = z.object({
 
 export function SigninForm() {
   const navigate = useNavigate();
+  const { signIn } = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
   
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -27,25 +29,30 @@ export function SigninForm() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // In a real app, this would call your authentication API
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    setIsLoading(true);
     
-    // Check localStorage for demo purposes
-    const users = JSON.parse(localStorage.getItem('users') || '[]');
-    const user = users.find((u: any) => 
-      u.username === values.username && u.password === values.password
-    );
-    
-    if (user) {
-      // Store current user (except password)
-      const { password, ...userInfo } = user;
-      localStorage.setItem('currentUser', JSON.stringify(userInfo));
+    try {
+      const { error } = await signIn(values.username, values.password);
       
-      toast.success("Welcome back, " + user.name + "!");
-      navigate('/');
-    } else {
-      toast.error("Invalid username or password");
+      if (error) {
+        console.error('Signin error:', error);
+        form.setError("username", { 
+          type: "manual", 
+          message: "Invalid username or password" 
+        });
+        form.setError("password", { 
+          type: "manual", 
+          message: "Invalid username or password" 
+        });
+        return;
+      }
+      
+      // Success handled in signIn function
+    } catch (error) {
+      console.error('Signin error:', error);
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -101,8 +108,19 @@ export function SigninForm() {
               )}
             />
             
-            <Button type="submit" className="w-full">
-              Sign In
+            <Button 
+              type="submit" 
+              className="w-full"
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Signing In...
+                </>
+              ) : (
+                'Sign In'
+              )}
             </Button>
           </form>
         </Form>

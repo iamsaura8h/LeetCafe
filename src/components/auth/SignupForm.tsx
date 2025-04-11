@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -9,7 +9,8 @@ import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { AtSign, Code, User, KeyRound } from 'lucide-react';
+import { AtSign, Code, User, KeyRound, Loader2 } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
 
 const formSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address" }),
@@ -22,6 +23,8 @@ const formSchema = z.object({
 
 export function SignupForm() {
   const navigate = useNavigate();
+  const { signUp } = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
   
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -33,37 +36,32 @@ export function SignupForm() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // In a real app, this would connect to your backend
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    setIsLoading(true);
     
-    // Store user in localStorage (for demo purposes only)
-    const users = JSON.parse(localStorage.getItem('users') || '[]');
-    
-    // Check if username already exists
-    if (users.some((user: any) => user.username === values.username)) {
-      toast.error("Username already taken. Please choose another one.");
-      return;
+    try {
+      const { error } = await signUp(
+        values.email,
+        values.password,
+        values.username,
+        values.name
+      );
+      
+      if (error) {
+        console.error('Signup error:', error);
+        toast.error(error.message || 'Failed to create account. Please try again.');
+        return;
+      }
+      
+      // Success is handled in the signUp function with a toast
+      form.reset();
+      navigate('/signin');
+    } catch (error) {
+      console.error('Signup error:', error);
+      toast.error('An unexpected error occurred. Please try again.');
+    } finally {
+      setIsLoading(false);
     }
-    
-    users.push({
-      email: values.email,
-      username: values.username,
-      name: values.name,
-      password: values.password, // In a real app, never store plain text passwords
-      joinedAt: new Date().toISOString(),
-      streak: Math.floor(Math.random() * 50), // Random streak for demo
-    });
-    
-    localStorage.setItem('users', JSON.stringify(users));
-    localStorage.setItem('currentUser', JSON.stringify({
-      username: values.username,
-      name: values.name,
-      email: values.email,
-    }));
-    
-    toast.success("Account created successfully!");
-    navigate('/');
   }
 
   return (
@@ -160,8 +158,19 @@ export function SignupForm() {
               )}
             />
             
-            <Button type="submit" className="w-full bg-gradient-to-r from-amber-500 via-code-blue to-code-purple">
-              Create Account
+            <Button 
+              type="submit" 
+              className="w-full bg-gradient-to-r from-amber-500 via-code-blue to-code-purple"
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Creating Account...
+                </>
+              ) : (
+                'Create Account'
+              )}
             </Button>
           </form>
         </Form>
