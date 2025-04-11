@@ -15,8 +15,11 @@ const CafeSpace = () => {
   ];
 
   return (
-    <section id="cafe-space" className="py-16">
-      <div className="container">
+    <section id="cafe-space" className="py-16 relative">
+      {/* Subtle background pattern */}
+      <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5"></div>
+      
+      <div className="container relative z-10">
         <div className="text-center mb-12">
           <Badge variant="outline" className="mb-2 font-mono">SPACE TO CODE & CONNECT</Badge>
           <h2 className="text-3xl font-bold mb-4">A Cafe Designed for Coders</h2>
@@ -26,24 +29,24 @@ const CafeSpace = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-          <Card className="border-border overflow-hidden transition-all duration-300 hover:shadow-md">
-            <div className="h-48 bg-[url('https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')] bg-cover bg-center"></div>
+          <Card className="border-border overflow-hidden transition-all duration-500 hover:shadow-xl hover:-translate-y-2 group">
+            <div className="h-64 bg-[url('https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')] bg-cover bg-center group-hover:scale-110 transition-transform duration-700"></div>
             <CardContent className="p-5">
               <h3 className="font-bold text-lg mb-2">Cozy Atmosphere</h3>
               <p className="text-muted-foreground">Comfortable seating arranged for both social and focused work sessions.</p>
             </CardContent>
           </Card>
 
-          <Card className="border-border overflow-hidden transition-all duration-300 hover:shadow-md">
-            <div className="h-48 bg-[url('https://images.unsplash.com/photo-1554118811-1e0d58224f24?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')] bg-cover bg-center"></div>
+          <Card className="border-border overflow-hidden transition-all duration-500 hover:shadow-xl hover:-translate-y-2 group">
+            <div className="h-64 bg-[url('https://images.unsplash.com/photo-1554118811-1e0d58224f24?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')] bg-cover bg-center group-hover:scale-110 transition-transform duration-700"></div>
             <CardContent className="p-5">
               <h3 className="font-bold text-lg mb-2">Community Tables</h3>
               <p className="text-muted-foreground">Large tables perfect for contest days and collaborative coding sessions.</p>
             </CardContent>
           </Card>
 
-          <Card className="border-border overflow-hidden transition-all duration-300 hover:shadow-md">
-            <div className="h-48 bg-[url('https://images.unsplash.com/photo-1600093463592-8e36ae95ef56?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')] bg-cover bg-center"></div>
+          <Card className="border-border overflow-hidden transition-all duration-500 hover:shadow-xl hover:-translate-y-2 group">
+            <div className="h-64 bg-[url('https://images.unsplash.com/photo-1600093463592-8e36ae95ef56?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')] bg-cover bg-center group-hover:scale-110 transition-transform duration-700"></div>
             <CardContent className="p-5">
               <h3 className="font-bold text-lg mb-2">Barista Bar</h3>
               <p className="text-muted-foreground">Watch our baristas craft the perfect drink to fuel your coding session.</p>
@@ -55,7 +58,11 @@ const CafeSpace = () => {
           {amenities.map((item, index) => {
             const ItemIcon = item.icon;
             return (
-              <div key={index} className="flex items-start gap-4 p-4 rounded-lg bg-secondary border border-border">
+              <div 
+                key={index} 
+                className="flex items-start gap-4 p-4 rounded-lg bg-secondary border border-border hover:shadow-md hover:scale-105 transition-all duration-300"
+                style={{ animationDelay: `${index * 100}ms` }}
+              >
                 <div className="p-2 rounded-md bg-card">
                   <ItemIcon className="h-5 w-5 text-code-blue" />
                 </div>

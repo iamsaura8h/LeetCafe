@@ -1,16 +1,27 @@
 
 import React from 'react';
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge"; // Add this import
+import { Badge } from "@/components/ui/badge";
 import { ArrowRight, Code, Coffee, Laptop, Utensils } from 'lucide-react';
 import BinaryPassword from './BinaryPassword';
 
 const Hero = () => {
   return (
-    <section id="about" className="py-16 md:py-24 bg-gradient-to-b from-secondary to-background">
-      <div className="container">
+    <section id="about" className="py-16 md:py-24 relative overflow-hidden">
+      {/* Background image with overlay */}
+      <div 
+        className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1554118811-1e0d58224f24?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')] 
+        bg-cover bg-center bg-fixed"
+        style={{ 
+          opacity: 0.15,
+        }}
+      ></div>
+      
+      <div className="absolute inset-0 bg-gradient-to-b from-background/90 to-background/95"></div>
+      
+      <div className="container relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          <div className="space-y-6">
+          <div className="space-y-6 animate-fade-in">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary text-sm font-medium font-mono">
               <Coffee className="h-4 w-4 text-amber-500" />
               <span>Opening April 2025</span>
@@ -26,30 +37,30 @@ const Hero = () => {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 pt-4">
-              <Button className="bg-amber-500 hover:bg-amber-600 text-white">
+              <Button className="bg-amber-500 hover:bg-amber-600 text-white transition-all hover:scale-105 duration-300">
                 View Our Menu <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
-              <Button variant="outline">
+              <Button variant="outline" className="hover:scale-105 transition-all duration-300">
                 Today's Problem
               </Button>
             </div>
             
             <div className="pt-6 grid grid-cols-3 gap-6">
-              <div className="space-y-1">
+              <div className="space-y-1 hover:scale-105 transition-all duration-300">
                 <div className="flex items-center gap-2">
                   <Coffee className="h-5 w-5 text-amber-500" />
                   <span className="text-xl font-bold">Artisan</span>
                 </div>
                 <p className="text-sm text-muted-foreground">Coffee & Tea</p>
               </div>
-              <div className="space-y-1">
+              <div className="space-y-1 hover:scale-105 transition-all duration-300">
                 <div className="flex items-center gap-2">
                   <Utensils className="h-5 w-5 text-amber-600" />
                   <span className="text-xl font-bold">Fresh</span>
                 </div>
                 <p className="text-sm text-muted-foreground">Local Food</p>
               </div>
-              <div className="space-y-1">
+              <div className="space-y-1 hover:scale-105 transition-all duration-300">
                 <div className="flex items-center gap-2">
                   <Code className="h-5 w-5 text-code-blue" />
                   <span className="text-xl font-bold">Weekly</span>
@@ -59,8 +70,8 @@ const Hero = () => {
             </div>
           </div>
           
-          <div className="relative">
-            <div className="bg-card rounded-lg p-6 shadow-lg border border-border">
+          <div className="relative animate-fade-in" style={{ animationDelay: "0.3s" }}>
+            <div className="bg-card rounded-lg p-6 shadow-lg border border-border hover:shadow-xl transition-all duration-300">
               <div className="flex items-center justify-between mb-6">
                 <div className="text-2xl font-bold flex items-center gap-2">
                   <Coffee className="h-6 w-6 text-amber-500" />
@@ -69,7 +80,8 @@ const Hero = () => {
                 <Badge className="bg-amber-500/10 text-amber-500 border-amber-500/20">Limited Time</Badge>
               </div>
               
-              <div className="bg-secondary rounded-md p-4 mb-6">
+              <div className="bg-secondary rounded-md p-4 mb-6 hover:scale-105 transition-all duration-300">
+                <div className="absolute -right-4 -top-4 w-24 h-24 bg-[url('https://images.unsplash.com/photo-1504627298427-d341f1f7454d?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80')] bg-cover bg-center rounded-full border-4 border-card shadow-lg"></div>
                 <h3 className="font-bold mb-2">Recursive Mocha</h3>
                 <p className="text-sm text-muted-foreground mb-3">
                   Our signature espresso with layers of chocolate that seem to go on forever, topped with a binary pattern in the foam.
@@ -83,9 +95,11 @@ const Hero = () => {
                   <span className="text-muted-foreground">Network:</span>
                   <span className="font-mono">LeetCafe_5GHz</span>
                 </div>
-                <div className="flex justify-between text-sm">
+                <div className="flex justify-between items-center text-sm">
                   <span className="text-muted-foreground">Password:</span>
-                  <BinaryPassword word="leetcode" />
+                  <div className="max-w-[150px]">
+                    <BinaryPassword word="leetcode" />
+                  </div>
                 </div>
               </div>
             </div>
