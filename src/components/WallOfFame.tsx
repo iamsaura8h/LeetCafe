@@ -3,7 +3,7 @@ import React from 'react';
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { leaderboard } from '@/data/wallOfFame';
-import { Award, Fire, Trophy } from 'lucide-react';
+import { Award, Flame, Trophy } from 'lucide-react';
 
 const WallOfFame = () => {
   return (
@@ -50,7 +50,7 @@ const WallOfFame = () => {
                 </div>
                 
                 <div className="flex items-center gap-2 mb-4">
-                  <Fire className="h-5 w-5 text-code-orange" />
+                  <Flame className="h-5 w-5 text-code-orange" />
                   <div className="font-mono font-bold text-lg">{coder.streak}</div>
                   <span className="text-sm text-muted-foreground">day streak</span>
                 </div>
