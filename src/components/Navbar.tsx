@@ -10,7 +10,7 @@ const Navbar = () => {
     <nav className="py-4 border-b border-border">
       <div className="container flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <Code2 className="h-6 w-6 text-code-blue" />
+          <Coffee className="h-6 w-6 text-amber-500" />
           <span className="text-xl font-mono font-bold">
             Leet<span className="text-code-blue">Cafe</span>
           </span>
@@ -20,18 +20,21 @@ const Navbar = () => {
           <a href="#about" className="text-muted-foreground hover:text-foreground transition-colors">
             About
           </a>
+          <a href="#menu" className="text-muted-foreground hover:text-foreground transition-colors">
+            Menu
+          </a>
+          <a href="#cafe-space" className="text-muted-foreground hover:text-foreground transition-colors">
+            Our Space
+          </a>
           <a href="#problem" className="text-muted-foreground hover:text-foreground transition-colors">
             Problem of the Day
           </a>
           <a href="#wall-of-fame" className="text-muted-foreground hover:text-foreground transition-colors">
             Wall of Fame
           </a>
-          <a href="#menu" className="text-muted-foreground hover:text-foreground transition-colors">
-            Menu
-          </a>
         </div>
         
-        <Button className="hidden md:flex gap-2 bg-code-blue hover:bg-code-blue/80">
+        <Button className="hidden md:flex gap-2 bg-amber-500 hover:bg-amber-600 text-white">
           <Coffee className="h-4 w-4" /> Visit Us
         </Button>
         
@@ -56,6 +59,20 @@ const Navbar = () => {
               About
             </a>
             <a 
+              href="#menu" 
+              className="py-2 px-4 hover:bg-secondary rounded-md"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Menu
+            </a>
+            <a 
+              href="#cafe-space" 
+              className="py-2 px-4 hover:bg-secondary rounded-md"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Our Space
+            </a>
+            <a 
               href="#problem" 
               className="py-2 px-4 hover:bg-secondary rounded-md"
               onClick={() => setIsMenuOpen(false)}
@@ -69,14 +86,7 @@ const Navbar = () => {
             >
               Wall of Fame
             </a>
-            <a 
-              href="#menu" 
-              className="py-2 px-4 hover:bg-secondary rounded-md"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Menu
-            </a>
-            <Button className="w-full flex items-center justify-center gap-2 bg-code-blue hover:bg-code-blue/80">
+            <Button className="w-full flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-600 text-white">
               <Coffee className="h-4 w-4" /> Visit Us
             </Button>
           </div>

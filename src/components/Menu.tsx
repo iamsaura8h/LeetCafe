@@ -20,12 +20,13 @@ const Menu = () => {
     : menuItems;
   
   return (
-    <section id="menu" className="py-16 bg-secondary">
+    <section id="menu" className="py-16 bg-amber-50 dark:bg-secondary/80">
       <div className="container">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold mb-4">Cafe Menu</h2>
+          <Badge variant="outline" className="mb-2 font-mono">OUR MENU</Badge>
+          <h2 className="text-3xl font-bold mb-4">Café Menu</h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Fuel your coding sessions with our programmer-themed menu items.
+            Quality ingredients, creative recipes, and programmer-themed treats to fuel your coding sessions.
           </p>
         </div>
         
@@ -57,19 +58,19 @@ const Menu = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredItems.map((item: MenuItem) => (
             <Card key={item.id} className="bg-card border-border hover:shadow-md transition-shadow overflow-hidden">
-              <CardHeader className="pb-3">
+              <CardHeader className="pb-3 border-b border-border">
                 <div className="flex justify-between items-start">
                   <div>
                     <CardTitle className="flex items-center gap-2">
                       {item.name}
-                      {item.popular && <Star className="h-4 w-4 text-yellow-500 inline" />}
+                      {item.popular && <Star className="h-4 w-4 text-amber-500 inline" />}
                     </CardTitle>
                     <CardDescription className="mt-1">{item.description}</CardDescription>
                   </div>
-                  <div className="font-mono font-bold">${item.price.toFixed(2)}</div>
+                  <div className="font-mono font-bold text-amber-500">${item.price.toFixed(2)}</div>
                 </div>
               </CardHeader>
-              <CardContent className="flex flex-wrap gap-2">
+              <CardContent className="flex flex-wrap gap-2 pt-3">
                 {item.vegan && (
                   <Badge variant="outline" className="bg-code-green/10 text-code-green border-code-green/20">
                     <Leaf className="mr-1 h-3 w-3" /> Vegan

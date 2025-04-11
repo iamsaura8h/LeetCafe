@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Github, Twitter, Instagram, Code2, Heart } from 'lucide-react';
+import { Github, Twitter, Instagram, Code2, Heart, Coffee } from 'lucide-react';
 import BinaryPassword from './BinaryPassword';
 
 const Footer = () => {
@@ -10,22 +10,22 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="space-y-4">
             <div className="flex items-center gap-2">
-              <Code2 className="h-6 w-6 text-code-blue" />
+              <Coffee className="h-6 w-6 text-amber-500" />
               <span className="text-xl font-mono font-bold">
                 Leet<span className="text-code-blue">Cafe</span>
               </span>
             </div>
             <p className="text-muted-foreground text-sm">
-              A haven for competitive programmers to code, collaborate, and caffeinate.
+              A café designed for competitive programmers to code, collaborate, and caffeinate.
             </p>
             <div className="flex gap-4">
-              <a href="#" className="text-muted-foreground hover:text-code-blue transition-colors">
+              <a href="#" className="text-muted-foreground hover:text-amber-500 transition-colors">
                 <Github className="h-5 w-5" />
               </a>
-              <a href="#" className="text-muted-foreground hover:text-code-blue transition-colors">
+              <a href="#" className="text-muted-foreground hover:text-amber-500 transition-colors">
                 <Twitter className="h-5 w-5" />
               </a>
-              <a href="#" className="text-muted-foreground hover:text-code-blue transition-colors">
+              <a href="#" className="text-muted-foreground hover:text-amber-500 transition-colors">
                 <Instagram className="h-5 w-5" />
               </a>
             </div>
@@ -45,7 +45,10 @@ const Footer = () => {
             <h3 className="font-bold mb-4">Quick Links</h3>
             <ul className="text-muted-foreground text-sm space-y-2">
               <li>
-                <a href="#" className="hover:text-foreground transition-colors">Weekly Contests</a>
+                <a href="#menu" className="hover:text-foreground transition-colors">Café Menu</a>
+              </li>
+              <li>
+                <a href="#cafe-space" className="hover:text-foreground transition-colors">Our Space</a>
               </li>
               <li>
                 <a href="#problem" className="hover:text-foreground transition-colors">Problem of the Day</a>
@@ -54,7 +57,7 @@ const Footer = () => {
                 <a href="#wall-of-fame" className="hover:text-foreground transition-colors">Wall of Fame</a>
               </li>
               <li>
-                <a href="#menu" className="hover:text-foreground transition-colors">Cafe Menu</a>
+                <a href="#" className="hover:text-foreground transition-colors">Weekly Contests</a>
               </li>
               <li>
                 <a href="#" className="hover:text-foreground transition-colors">Host an Event</a>
@@ -82,7 +85,7 @@ const Footer = () => {
         
         <div className="mt-12 pt-6 border-t border-border text-center text-sm text-muted-foreground">
           <p className="flex items-center justify-center gap-1">
-            Made with <Heart className="h-4 w-4 text-code-pink" /> for Leetcode enthusiasts everywhere
+            Made with <Heart className="h-4 w-4 text-amber-500" /> for coffee enthusiasts who code
           </p>
           <p className="mt-1">© 2025 LeetCafe. All rights reserved.</p>
         </div>

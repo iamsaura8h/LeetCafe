@@ -7,9 +7,10 @@ import { Award, Flame, Trophy } from 'lucide-react';
 
 const WallOfFame = () => {
   return (
-    <section id="wall-of-fame" className="py-16">
+    <section id="wall-of-fame" className="py-16 bg-secondary/50">
       <div className="container">
         <div className="text-center mb-12">
+          <Badge variant="outline" className="mb-2 font-mono">HALL OF FAME</Badge>
           <h2 className="text-3xl font-bold mb-4">Wall of Fame</h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
             Our legendary LeetCoders with 1000+ day streaks. Will you be the next to join them?
@@ -19,7 +20,7 @@ const WallOfFame = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {leaderboard.map((coder) => (
             <Card key={coder.id} className="bg-card border-border overflow-hidden transition-all duration-300 hover:shadow-md hover:shadow-accent/20 hover:-translate-y-1">
-              <div className="p-1 bg-gradient-to-r from-code-blue via-code-purple to-code-pink"></div>
+              <div className="p-1 bg-gradient-to-r from-amber-500 via-code-blue to-code-purple"></div>
               <CardContent className="p-5">
                 <div className="flex items-center gap-4 mb-4">
                   <div className="relative">
@@ -50,7 +51,7 @@ const WallOfFame = () => {
                 </div>
                 
                 <div className="flex items-center gap-2 mb-4">
-                  <Flame className="h-5 w-5 text-code-orange" />
+                  <Flame className="h-5 w-5 text-amber-500" />
                   <div className="font-mono font-bold text-lg">{coder.streak}</div>
                   <span className="text-sm text-muted-foreground">day streak</span>
                 </div>

@@ -5,6 +5,7 @@ import Hero from '@/components/Hero';
 import ProblemOfTheDay from '@/components/ProblemOfTheDay';
 import WallOfFame from '@/components/WallOfFame';
 import Menu from '@/components/Menu';
+import CafeSpace from '@/components/CafeSpace';
 import Footer from '@/components/Footer';
 
 const Index = () => {
@@ -13,9 +14,10 @@ const Index = () => {
       <Navbar />
       <main className="flex-grow">
         <Hero />
+        <Menu />
+        <CafeSpace />
         <ProblemOfTheDay />
         <WallOfFame />
-        <Menu />
       </main>
       <Footer />
     </div>
