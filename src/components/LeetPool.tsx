@@ -103,8 +103,11 @@ const LeetPool = () => {
   }, []);
 
   return (
-    <section id="leetpool" className="py-16 bg-secondary/50">
-      <div className="container">
+    <section id="leetpool" className="py-16 relative bg-secondary/50">
+      {/* <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/brick-wall.png')] opacity-25"></div> */}
+      <div className="absolute inset-0 bg-[url(/backgrounds/brick-wall.png)] opacity-25"></div>
+    
+      <div className="container relative z-10">
         <div className="text-center mb-12">
           <Badge variant="outline" className="mb-2 font-mono">CODER COMMUNITY</Badge>
           <h2 className="text-3xl font-bold mb-4">LeetPool</h2>
