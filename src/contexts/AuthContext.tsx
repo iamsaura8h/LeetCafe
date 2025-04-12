@@ -1,3 +1,4 @@
+
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
@@ -134,10 +135,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         navigate('/');
         return { error: null };
       } else {
-        // Username-based login - first look up the email
+        // Username-based login - first look up the email by username
         const { data: profileData, error: profileError } = await supabase
           .from('profiles')
-          .select('id')
+          .select('*')
           .eq('username', username)
           .single();
         
@@ -146,35 +147,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           return { error: { message: 'Username not found' } };
         }
         
-        // Find the user in auth.users using the profile ID
-        const { data: userData, error: userError } = await supabase
-          .from('auth')
-          .select('email')
-          .eq('id', profileData.id)
-          .single();
+        // Now, we need to find the user email in the auth metadata
+        // Since we can't query the auth table directly, we'll try to sign in directly
+        // using the user's information from metabase
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email: profileData.email || `${username}@example.com`, // Attempt with email if found
+          password,
+        });
         
-        if (userError || !userData) {
-          // Try to sign in with the username directly as email
-          const { error } = await supabase.auth.signInWithPassword({
-            email: username,
-            password,
-          });
-          
-          if (error) {
-            console.error('Username login error:', error);
-            return { error: { message: 'Invalid username or password' } };
-          }
-        } else {
-          // Sign in with the retrieved email
-          const { error } = await supabase.auth.signInWithPassword({
-            email: userData.email,
-            password,
-          });
-          
-          if (error) {
-            console.error('Email login error:', error);
-            return { error };
-          }
+        if (error) {
+          console.error('Username-based login error:', error);
+          return { error: { message: 'Invalid username or password' } };
         }
         
         toast.success('Successfully signed in!');
