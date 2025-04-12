@@ -94,11 +94,11 @@ const Hero = () => {
               
               <div className="bg-secondary rounded-md p-4 mb-6 hover:scale-105 transition-all duration-300">
                 {/* <div className="absolute -right-4 -top-4 w-24 h-24 bg-[url(/images/cafe.jpeg)] bg-cover bg-center rounded-full border-4 border-card shadow-lg"></div> */}
-                <h3 className="font-bold mb-2">Recursive Mocha</h3>
+                <h3 className="font-bold mb-2">Signature Hot Coffee</h3>
                 <p className="text-sm text-muted-foreground mb-3">
-                  Our signature espresso with layers of chocolate that seem to go on forever, topped with a binary pattern in the foam.
+                  Our signature coffee with layers of chocolate that seem to go on forever, topped with a binary pattern in the foam.
                 </p>
-                <div className="text-xl font-mono font-bold text-amber-500">$4.95</div>
+                <div className="text-xl font-mono font-bold text-amber-500">₹159</div>
               </div>
               
               <h3 className="font-mono text-lg font-bold mb-2">WiFi Details</h3>
@@ -116,7 +116,7 @@ const Hero = () => {
               </div>
             </div>
             
-            <div className="absolute -top-4 -left-4 -right-4 -bottom-4 bg-amber-500/10 rounded-lg -z-10"></div>
+            <div className="absolute -top-4 -left-4 -right-4 -bottom-4 bg-amber-600/10 rounded-lg -z-10"></div>
           </div>
         </div>
       </div>
