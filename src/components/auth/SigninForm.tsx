@@ -8,11 +8,12 @@ import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Code, KeyRound, Loader2 } from 'lucide-react';
+import { Code, KeyRound, Loader2, AtSign } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
+import { toast } from 'sonner';
 
 const formSchema = z.object({
-  username: z.string().min(1, { message: "Username is required" }),
+  username: z.string().min(1, { message: "Username or email is required" }),
   password: z.string().min(1, { message: "Password is required" }),
 });
 
@@ -37,6 +38,7 @@ export function SigninForm() {
       
       if (error) {
         console.error('Signin error:', error);
+        toast.error(error.message || 'Invalid username or password');
         form.setError("username", { 
           type: "manual", 
           message: "Invalid username or password" 
@@ -45,12 +47,11 @@ export function SigninForm() {
           type: "manual", 
           message: "Invalid username or password" 
         });
-        return;
       }
-      
       // Success handled in signIn function
     } catch (error) {
       console.error('Signin error:', error);
+      toast.error('An unexpected error occurred');
     } finally {
       setIsLoading(false);
     }
@@ -70,12 +71,16 @@ export function SigninForm() {
               name="username"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Username</FormLabel>
+                  <FormLabel>Username or Email</FormLabel>
                   <FormControl>
                     <div className="relative">
-                      <Code className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                      {field.value.includes('@') ? (
+                        <AtSign className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                      ) : (
+                        <Code className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                      )}
                       <Input 
-                        placeholder="leetcoder" 
+                        placeholder="username or email" 
                         className="pl-10" 
                         {...field} 
                       />

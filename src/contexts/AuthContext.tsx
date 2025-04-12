@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
@@ -116,43 +115,74 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const signIn = async (username: string, password: string) => {
     try {
-      // First get the email associated with the username
-      const { data: profileData, error: profileError } = await supabase
-        .from('profiles')
-        .select('id, full_name')
-        .eq('username', username)
-        .single();
+      // Check if input looks like an email
+      const isEmail = username.includes('@');
       
-      if (profileError) {
-        return { error: { message: 'Username not found' } };
-      }
-      
-      // Use the user's email for sign in
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email: username + '@leetcafe.com', // We use a fake email since we're checking username
-        password,
-      });
-      
-      if (error) {
-        // Try direct email login as fallback if username format is email-like
-        if (username.includes('@')) {
-          const { error: directEmailError } = await supabase.auth.signInWithPassword({
+      if (isEmail) {
+        // Direct login with email
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email: username,
+          password,
+        });
+        
+        if (error) {
+          console.error('Email login error:', error);
+          return { error };
+        }
+        
+        toast.success('Successfully signed in!');
+        navigate('/');
+        return { error: null };
+      } else {
+        // Username-based login - first look up the email
+        const { data: profileData, error: profileError } = await supabase
+          .from('profiles')
+          .select('id')
+          .eq('username', username)
+          .single();
+        
+        if (profileError || !profileData) {
+          console.error('Username lookup error:', profileError);
+          return { error: { message: 'Username not found' } };
+        }
+        
+        // Find the user in auth.users using the profile ID
+        const { data: userData, error: userError } = await supabase
+          .from('auth')
+          .select('email')
+          .eq('id', profileData.id)
+          .single();
+        
+        if (userError || !userData) {
+          // Try to sign in with the username directly as email
+          const { error } = await supabase.auth.signInWithPassword({
             email: username,
             password,
           });
           
-          if (directEmailError) {
-            return { error: directEmailError };
+          if (error) {
+            console.error('Username login error:', error);
+            return { error: { message: 'Invalid username or password' } };
           }
         } else {
-          return { error };
+          // Sign in with the retrieved email
+          const { error } = await supabase.auth.signInWithPassword({
+            email: userData.email,
+            password,
+          });
+          
+          if (error) {
+            console.error('Email login error:', error);
+            return { error };
+          }
         }
+        
+        toast.success('Successfully signed in!');
+        navigate('/');
+        return { error: null };
       }
-      
-      toast.success('Successfully signed in!');
-      navigate('/');
-      return { error: null };
     } catch (error) {
+      console.error('Sign in error:', error);
       return { error };
     }
   };
