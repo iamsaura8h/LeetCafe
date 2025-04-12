@@ -10,14 +10,14 @@ const Hero = () => {
     <section id="about" className="py-16 md:py-24 relative overflow-hidden">
       {/* Background image with overlay */}
       <div 
-        className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1554118811-1e0d58224f24?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')] 
+        className="absolute inset-0 bg-[url(/images/cafe.jpeg)] 
         bg-cover bg-center bg-fixed"
         style={{ 
           opacity: 0.15,
         }}
       ></div>
       
-      <div className="absolute inset-0 bg-gradient-to-b from-background/90 to-background/95"></div>
+      <div className="absolute inset-0 bg-gradient-to-b from-background/20 to-background/80"></div>
       
       <div className="container relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -81,7 +81,7 @@ const Hero = () => {
               </div>
               
               <div className="bg-secondary rounded-md p-4 mb-6 hover:scale-105 transition-all duration-300">
-                <div className="absolute -right-4 -top-4 w-24 h-24 bg-[url('https://images.unsplash.com/photo-1504627298427-d341f1f7454d?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80')] bg-cover bg-center rounded-full border-4 border-card shadow-lg"></div>
+                {/* <div className="absolute -right-4 -top-4 w-24 h-24 bg-[url(/images/cafe.jpeg)] bg-cover bg-center rounded-full border-4 border-card shadow-lg"></div> */}
                 <h3 className="font-bold mb-2">Recursive Mocha</h3>
                 <p className="text-sm text-muted-foreground mb-3">
                   Our signature espresso with layers of chocolate that seem to go on forever, topped with a binary pattern in the foam.
