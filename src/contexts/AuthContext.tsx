@@ -27,18 +27,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   useEffect(() => {
     // First set up the auth state listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, currentSession) => {
+      (event, currentSession) => {
         setSession(currentSession);
         setUser(currentSession?.user ?? null);
         
         if (currentSession?.user) {
-          const { data: profileData } = await supabase
-            .from('profiles')
-            .select('*')
-            .eq('id', currentSession.user.id)
-            .single();
-            
-          setProfile(profileData);
+          fetchProfile(currentSession.user.id);
         } else {
           setProfile(null);
         }
@@ -53,15 +47,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setUser(currentSession?.user ?? null);
       
       if (currentSession?.user) {
-        supabase
-          .from('profiles')
-          .select('*')
-          .eq('id', currentSession.user.id)
-          .single()
-          .then(({ data: profileData }) => {
-            setProfile(profileData);
-            setLoading(false);
-          });
+        fetchProfile(currentSession.user.id);
       } else {
         setLoading(false);
       }
@@ -72,8 +58,39 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     };
   }, []);
 
+  const fetchProfile = async (userId: string) => {
+    try {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', userId)
+        .single();
+        
+      if (error) {
+        console.error('Error fetching profile:', error);
+      } else {
+        setProfile(data);
+      }
+    } catch (error) {
+      console.error('Error in fetchProfile:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const generateRandomAvatar = (username: string) => {
+    // Use themed avatars that match the cafe's aesthetic
+    const themes = [
+      'initials', 'micah', 'personas', 'bottts', 'avataaars', 'lorelei'
+    ];
+    const randomTheme = themes[Math.floor(Math.random() * themes.length)];
+    return `https://avatars.dicebear.com/api/${randomTheme}/${username}.svg`;
+  };
+
   const signUp = async (email: string, password: string, username: string, name: string) => {
     try {
+      const avatar_url = generateRandomAvatar(username);
+      
       const { error } = await supabase.auth.signUp({
         email,
         password,
@@ -81,6 +98,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           data: {
             username,
             name,
+            avatar_url
           }
         }
       });
@@ -101,7 +119,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       // First get the email associated with the username
       const { data: profileData, error: profileError } = await supabase
         .from('profiles')
-        .select('id')
+        .select('id, full_name')
         .eq('username', username)
         .single();
       
@@ -109,21 +127,26 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         return { error: { message: 'Username not found' } };
       }
       
-      // Then find the email from auth.users using the profile id
-      const { data: userData, error: userError } = await supabase.auth.admin.getUserById(profileData.id);
-      
-      if (userError || !userData.user) {
-        return { error: { message: 'Failed to authenticate' } };
-      }
-      
-      // Sign in with the email and password
-      const { error } = await supabase.auth.signInWithPassword({
-        email: userData.user.email as string,
+      // Use the user's email for sign in
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: username + '@leetcafe.com', // We use a fake email since we're checking username
         password,
       });
       
       if (error) {
-        return { error };
+        // Try direct email login as fallback if username format is email-like
+        if (username.includes('@')) {
+          const { error: directEmailError } = await supabase.auth.signInWithPassword({
+            email: username,
+            password,
+          });
+          
+          if (directEmailError) {
+            return { error: directEmailError };
+          }
+        } else {
+          return { error };
+        }
       }
       
       toast.success('Successfully signed in!');
