@@ -2,7 +2,7 @@
 import React from 'react';
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ArrowRight, Code, Coffee, Laptop, Utensils } from 'lucide-react';
+import { ArrowRight, Code, Coffee, Laptop, Utensils, Users, BookOpen } from 'lucide-react';
 import BinaryPassword from './BinaryPassword';
 
 const Hero = () => {
@@ -24,16 +24,16 @@ const Hero = () => {
           <div className="space-y-6 animate-fade-in">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary text-sm font-medium font-mono">
               <Coffee className="h-4 w-4 text-amber-500" />
-              <span>Opening April 2025</span>
+              <span>On-Campus Since 2025</span>
             </div>
             
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
-              A <span className="text-amber-500">Café</span> where <span className="text-code-blue font-mono">code</span> meets coffee
+              Where <span className="text-amber-500">campus</span> coders <span className="text-code-blue font-mono">connect</span>
             </h1>
             
             <p className="text-lg text-muted-foreground">
-              Enjoy artisanal coffee and delicious food in a space designed for programmers. 
-              Solve our Problem of the Day for discounts, participate in coding events, and connect with fellow developers.
+              More than just a café—we're a coding community for students. Find study partners, 
+              join collaborative coding sessions, and make friends who speak your programming language.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 pt-4">
@@ -48,24 +48,24 @@ const Hero = () => {
             <div className="pt-6 grid grid-cols-3 gap-6">
               <div className="space-y-1 hover:scale-105 transition-all duration-300">
                 <div className="flex items-center gap-2">
-                  <Coffee className="h-5 w-5 text-amber-500" />
-                  <span className="text-xl font-bold">Artisan</span>
+                  <Users className="h-5 w-5 text-amber-500" />
+                  <span className="text-xl font-bold">Student</span>
                 </div>
-                <p className="text-sm text-muted-foreground">Coffee & Tea</p>
+                <p className="text-sm text-muted-foreground">Community</p>
               </div>
               <div className="space-y-1 hover:scale-105 transition-all duration-300">
                 <div className="flex items-center gap-2">
-                  <Utensils className="h-5 w-5 text-amber-600" />
-                  <span className="text-xl font-bold">Fresh</span>
+                  <BookOpen className="h-5 w-5 text-amber-600" />
+                  <span className="text-xl font-bold">Study</span>
                 </div>
-                <p className="text-sm text-muted-foreground">Local Food</p>
+                <p className="text-sm text-muted-foreground">Groups</p>
               </div>
               <div className="space-y-1 hover:scale-105 transition-all duration-300">
                 <div className="flex items-center gap-2">
                   <Code className="h-5 w-5 text-code-blue" />
-                  <span className="text-xl font-bold">Weekly</span>
+                  <span className="text-xl font-bold">Coding</span>
                 </div>
-                <p className="text-sm text-muted-foreground">Code Events</p>
+                <p className="text-sm text-muted-foreground">Challenges</p>
               </div>
             </div>
           </div>
@@ -75,32 +75,39 @@ const Hero = () => {
               <div className="flex items-center justify-between mb-6">
                 <div className="text-2xl font-bold flex items-center gap-2">
                   <Coffee className="h-6 w-6 text-amber-500" />
-                  Today's Special
+                  Campus Highlight
                 </div>
-                <Badge className="bg-amber-500/10 text-amber-500 border-amber-500/20">Limited Time</Badge>
+                <Badge className="bg-amber-500/10 text-amber-500 border-amber-500/20">Student Discount</Badge>
               </div>
               
               <div className="bg-secondary rounded-md p-4 mb-6 hover:scale-105 transition-all duration-300">
                 <div className="absolute -right-4 -top-4 w-24 h-24 bg-[url('https://images.unsplash.com/photo-1504627298427-d341f1f7454d?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80')] bg-cover bg-center rounded-full border-4 border-card shadow-lg"></div>
                 <h3 className="font-bold mb-2">Recursive Mocha</h3>
                 <p className="text-sm text-muted-foreground mb-3">
-                  Our signature espresso with layers of chocolate that seem to go on forever, topped with a binary pattern in the foam.
+                  Our signature espresso with layers of chocolate, topped with a binary pattern in the foam. Solve today's challenge for 15% off!
                 </p>
                 <div className="text-xl font-mono font-bold text-amber-500">$4.95</div>
               </div>
               
-              <h3 className="font-mono text-lg font-bold mb-2">WiFi Details</h3>
-              <div className="space-y-2">
-                <div className="flex justify-between text-sm">
-                  <span className="text-muted-foreground">Network:</span>
-                  <span className="font-mono">LeetCafe_5GHz</span>
-                </div>
-                <div className="flex justify-between items-center text-sm">
-                  <span className="text-muted-foreground">Password:</span>
-                  <div className="max-w-[150px]">
-                    <BinaryPassword word="leetcode" />
-                  </div>
-                </div>
+              <div className="bg-amber-500/5 p-4 rounded-md border border-amber-500/10">
+                <h3 className="font-bold mb-2 flex items-center gap-2">
+                  <Users className="h-4 w-4 text-amber-500" />
+                  Community Events
+                </h3>
+                <ul className="space-y-2 text-sm">
+                  <li className="flex justify-between">
+                    <span>Algorithm Study Group</span>
+                    <span className="text-muted-foreground">Tuesdays @ 7PM</span>
+                  </li>
+                  <li className="flex justify-between">
+                    <span>Web Dev Workshop</span>
+                    <span className="text-muted-foreground">Thursdays @ 6PM</span>
+                  </li>
+                  <li className="flex justify-between">
+                    <span>Weekend Hackathon</span>
+                    <span className="text-muted-foreground">April 19-21</span>
+                  </li>
+                </ul>
               </div>
             </div>
             
