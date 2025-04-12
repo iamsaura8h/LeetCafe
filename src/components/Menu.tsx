@@ -21,10 +21,10 @@ const Menu = () => {
     : menuItems;
   
   return (
-    <section id="menu" className="py-16 bg-amber-50 dark:bg-secondary/80">
+    <section id="menu" className="py-16 bg-[#F8FAFC] dark:bg-secondary/80">
       <div className="container">
-        <div className="text-center mb-12">
-          <Badge variant="outline" className="mb-2 font-mono">OUR MENU</Badge>
+        <div className="text-center text-blue-950 mb-12">
+          <Badge variant="outline" className="mb-2 font-mono text-black">OUR MENU</Badge>
           <h2 className="text-3xl font-bold mb-4">Café Menu</h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
             Quality ingredients, creative recipes, and programmer-themed treats to fuel your coding sessions.
@@ -34,7 +34,7 @@ const Menu = () => {
         <div className="flex flex-wrap justify-center gap-3 mb-8">
           <Badge 
             variant={selectedCategory === null ? "default" : "outline"}
-            className="cursor-pointer text-sm px-4 py-2"
+            className="cursor-pointer text-sm px-4 py-2 text-black"
             onClick={() => setSelectedCategory(null)}
           >
             All
@@ -46,7 +46,7 @@ const Menu = () => {
               <Badge 
                 key={category.id}
                 variant={selectedCategory === category.id ? "default" : "outline"}
-                className="cursor-pointer text-sm px-4 py-2 flex items-center gap-2"
+                className="cursor-pointer text-sm px-4 py-2 flex items-center gap-2 text-black"
                 onClick={() => setSelectedCategory(category.id)}
               >
                 <CategoryIcon className="h-3 w-3" />
@@ -79,7 +79,7 @@ const Menu = () => {
                     </CardTitle>
                     <CardDescription className="mt-1">{item.description}</CardDescription>
                   </div>
-                  <div className="font-mono font-bold text-amber-500">${item.price.toFixed(2)}</div>
+                  <div className="font-mono font-bold text-amber-500">₹{item.price.toFixed(2)}</div>
                 </div>
               </CardHeader>
               <CardContent className="flex flex-wrap gap-2 pt-3">

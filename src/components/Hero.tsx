@@ -10,14 +10,14 @@ const Hero = () => {
     <section id="about" className="py-16 md:py-24 relative overflow-hidden">
       {/* Background image with overlay */}
       <div 
-        className="absolute inset-0 bg-[url(/images/cafe.jpeg)] 
+        className="absolute inset-0 bg-[url(/images/hero1.jpeg)] 
         bg-cover bg-center bg-fixed"
         style={{ 
           opacity: 0.15,
         }}
       ></div>
       
-      <div className="absolute inset-0 bg-gradient-to-b from-background/20 to-background/80"></div>
+      <div className="absolute inset-0 bg-gradient-to-b from-background/10 to-background/70"></div>
       
       <div className="container relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -91,13 +91,13 @@ const Hero = () => {
               
               <h3 className="font-mono text-lg font-bold mb-2">WiFi Details</h3>
               <div className="space-y-2">
-                <div className="flex justify-between text-sm">
+                <div className="flex justify-between md:mr-16 text-sm">
                   <span className="text-muted-foreground">Network:</span>
                   <span className="font-mono">LeetCafe_5GHz</span>
                 </div>
                 <div className="flex justify-between items-center text-sm">
                   <span className="text-muted-foreground">Password:</span>
-                  <div className="max-w-[150px]">
+                  <div className="max-w-[150px] md:mr-10">
                     <BinaryPassword word="leetcode" />
                   </div>
                 </div>
