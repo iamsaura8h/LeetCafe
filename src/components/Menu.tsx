@@ -6,7 +6,7 @@ import { Coffee, Leaf, Utensils, Cake, Star } from 'lucide-react';
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 
 const Menu = () => {
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<string>('coffee');
   
   const categories = [
     { id: "coffee", name: "Coffee", icon: Coffee },
@@ -20,7 +20,7 @@ const Menu = () => {
     : menuItems;
   
   return (
-    <section id="menu" className="py-16 bg-[#F8FAFC] dark:bg-secondary/80">
+    <section id="menu" className="py-16 bg-[#ebedef] dark:bg-secondary/80">
       <div className="container">
         <div className="text-center text-blue-950 mb-12">
           <Badge variant="outline" className="mb-2 font-mono text-black">OUR MENU</Badge>
