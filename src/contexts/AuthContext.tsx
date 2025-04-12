@@ -135,7 +135,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         navigate('/');
         return { error: null };
       } else {
-        // Username-based login - first look up the email by username
+        // Username-based login - first look up the profile by username
         const { data: profileData, error: profileError } = await supabase
           .from('profiles')
           .select('*')
@@ -147,17 +147,25 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           return { error: { message: 'Username not found' } };
         }
         
-        // Now, we need to find the user email in the auth metadata
-        // Since we can't query the auth table directly, we'll try to sign in directly
-        // using the user's information from metabase
-        const { data, error } = await supabase.auth.signInWithPassword({
-          email: profileData.email || `${username}@example.com`, // Attempt with email if found
+        // For username login, we don't have the email in the profiles table
+        // So we'll try to sign in with the username directly as the email
+        // First try with the username@example.com pattern that many apps use
+        const { error } = await supabase.auth.signInWithPassword({
+          email: `${username}@example.com`,
           password,
         });
         
         if (error) {
-          console.error('Username-based login error:', error);
-          return { error: { message: 'Invalid username or password' } };
+          // If that fails, try with just the username (in case they registered with username as email)
+          const { error: secondError } = await supabase.auth.signInWithPassword({
+            email: username,
+            password,
+          });
+          
+          if (secondError) {
+            console.error('Username-based login error:', secondError);
+            return { error: { message: 'Invalid username or password' } };
+          }
         }
         
         toast.success('Successfully signed in!');
