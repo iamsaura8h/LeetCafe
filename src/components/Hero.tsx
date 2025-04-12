@@ -6,18 +6,26 @@ import { ArrowRight, Code, Coffee, Laptop, Utensils } from 'lucide-react';
 import BinaryPassword from './BinaryPassword';
 
 const Hero = () => {
+
+  const scrollToSection = (sectionId: string) => {
+    const section = document.getElementById(sectionId);
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <section id="about" className="py-16 md:py-24 relative overflow-hidden">
       {/* Background image with overlay */}
       <div 
-        className="absolute inset-0 bg-[url(/images/hero1.jpeg)] 
+        className="absolute inset-0 bg-[url(/images/a.jpg)] 
         bg-cover bg-center bg-fixed"
         style={{ 
           opacity: 0.15,
         }}
       ></div>
       
-      <div className="absolute inset-0 bg-gradient-to-b from-background/10 to-background/70"></div>
+      <div className="absolute inset-90 bg-gradient-to-b from-background/10 to-background/20"></div>
       
       <div className="container relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -37,10 +45,14 @@ const Hero = () => {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 pt-4">
-              <Button className="bg-amber-500 hover:bg-amber-600 text-white transition-all hover:scale-105 duration-300">
+              <Button 
+              onClick={() => scrollToSection("menu")}
+              className="bg-amber-500 hover:bg-amber-600 text-white transition-all hover:scale-105 duration-300">
                 View Our Menu <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
-              <Button variant="outline" className="hover:scale-105 transition-all duration-300">
+              <Button variant="outline" 
+              onClick={() => scrollToSection("problem")}
+              className="hover:scale-105 transition-all duration-300">
                 Today's Problem
               </Button>
             </div>
@@ -98,7 +110,7 @@ const Hero = () => {
                 <div className="flex justify-between items-center text-sm">
                   <span className="text-muted-foreground">Password:</span>
                   <div className="max-w-[150px] md:mr-10">
-                    <BinaryPassword word="leetcode" />
+                    <BinaryPassword word="solve" />
                   </div>
                 </div>
               </div>

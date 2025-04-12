@@ -114,3 +114,7 @@
 .animate-cursor-blink {
   animation: cursorBlink 1s infinite;
 }
+
+html{
+  scroll-behavior: smooth;
+}

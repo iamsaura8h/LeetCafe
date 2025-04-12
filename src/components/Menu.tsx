@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -59,17 +58,15 @@ const Menu = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredItems.map((item: MenuItem) => (
             <Card key={item.id} className="bg-card border-border hover:shadow-md transition-shadow overflow-hidden">
-              {item.image && (
-                <div className="w-full h-48 overflow-hidden">
-                  <AspectRatio ratio={4/3} className="bg-muted">
-                    <img 
-                      src={item.image} 
-                      alt={item.name} 
-                      className="object-cover w-full h-full" 
-                    />
-                  </AspectRatio>
-                </div>
-              )}
+              <div className="w-full h-48 overflow-hidden">
+                <AspectRatio ratio={4/3} className="bg-muted">
+                  <img 
+                    src={item.image || "/api/placeholder/400/300"} 
+                    alt={item.name} 
+                    className="object-cover w-full h-full" 
+                  />
+                </AspectRatio>
+              </div>
               <CardHeader className="pb-3 border-b border-border">
                 <div className="flex justify-between items-start">
                   <div>

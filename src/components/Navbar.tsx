@@ -1,9 +1,8 @@
-
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { Code2, Coffee, Menu, X, User, LogOut } from 'lucide-react';
+import React from "react";
+import { Link } from "react-router-dom";
+import { Code2, Coffee, Menu, X, User, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from "@/contexts/AuthContext";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,9 +16,28 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const { user, profile, signOut } = useAuth();
-  
+
+  // sticky scroll for navbar
+  const [scrolled, setScrolled] = React.useState(false);
+
+  React.useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 10);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <nav className="py-4 border-b border-border">
+    // <nav className="py-4 border-b border-border">
+    <nav
+      className={`sticky top-0 z-50 py-3 border-b border-border transition-colors duration-300 ${
+        scrolled
+          ? "bg-background/70 backdrop-blur border-b border-border"
+          : "bg-background"
+      }`}
+    >
       <div className="container flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Link to="/" className="flex items-center gap-2">
@@ -29,42 +47,69 @@ const Navbar = () => {
             </span>
           </Link>
         </div>
-        
+
         <div className="hidden md:flex items-center gap-8">
-          <a href="#about" className="text-muted-foreground hover:text-foreground transition-colors">
+          <a
+            href="#about"
+            className="text-muted-foreground hover:text-foreground transition-colors"
+          >
             About
           </a>
-          <a href="#menu" className="text-muted-foreground hover:text-foreground transition-colors">
+          <a
+            href="#menu"
+            className="text-muted-foreground hover:text-foreground transition-colors"
+          >
             Menu
           </a>
-          <a href="#cafe-space" className="text-muted-foreground hover:text-foreground transition-colors">
+          <a
+            href="#cafe-space"
+            className="text-muted-foreground hover:text-foreground transition-colors"
+          >
             Our Space
           </a>
-          <a href="#problem" className="text-muted-foreground hover:text-foreground transition-colors">
+          <a
+            href="#problem"
+            className="text-muted-foreground hover:text-foreground transition-colors"
+          >
             Problem of the Day
           </a>
-          <a href="#leetpool" className="text-muted-foreground hover:text-foreground transition-colors">
+          <a
+            href="#leetpool"
+            className="text-muted-foreground hover:text-foreground transition-colors"
+          >
             LeetPool
           </a>
         </div>
-        
+
         <div className="hidden md:flex gap-2">
           {user ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="relative h-10 w-10 rounded-full">
+                <Button
+                  variant="ghost"
+                  className="relative h-10 w-10 rounded-full"
+                >
                   <Avatar className="h-14 w-14 border-8 border-[#1D2330]">
                     {/* <AvatarImage src={profile?.avatar_url} alt={profile?.username} /> */}
-                    <AvatarImage src={"/images/katara.png"} alt={profile?.username} />
-                    <AvatarFallback>{profile?.username?.substring(0, 2).toUpperCase()}</AvatarFallback>
+                    <AvatarImage
+                      src={"/images/katara.png"}
+                      alt={profile?.username}
+                    />
+                    <AvatarFallback>
+                      {profile?.username?.substring(0, 2).toUpperCase()}
+                    </AvatarFallback>
                   </Avatar>
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-56" align="end" forceMount>
                 <DropdownMenuLabel className="font-normal">
                   <div className="flex flex-col space-y-1">
-                    <p className="text-sm font-medium leading-none">{profile?.full_name}</p>
-                    <p className="text-xs leading-none text-muted-foreground">@{profile?.username}</p>
+                    <p className="text-sm font-medium leading-none">
+                      {profile?.full_name}
+                    </p>
+                    <p className="text-xs leading-none text-muted-foreground">
+                      @{profile?.username}
+                    </p>
                   </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
@@ -76,75 +121,92 @@ const Navbar = () => {
             </DropdownMenu>
           ) : (
             <>
-              <Button variant="ghost" onClick={() => window.location.href = '/signin'}>
+              <Button
+                variant="ghost"
+                onClick={() => (window.location.href = "/signin")}
+              >
                 Sign in
               </Button>
-              <Button className="bg-amber-500 hover:bg-amber-600 text-white" onClick={() => window.location.href = '/signup'}>
+              <Button
+                className="bg-amber-500 hover:bg-amber-600 text-white"
+                onClick={() => (window.location.href = "/signup")}
+              >
                 <User className="h-4 w-4 mr-2" /> Sign up
               </Button>
             </>
           )}
         </div>
-        
-        <Button 
-          variant="ghost" 
-          size="icon" 
+
+        <Button
+          variant="ghost"
+          size="icon"
           className="md:hidden"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
         >
-          {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          {isMenuOpen ? (
+            <X className="h-6 w-6" />
+          ) : (
+            <Menu className="h-6 w-6" />
+          )}
         </Button>
       </div>
-      
+
       {isMenuOpen && (
         <div className="md:hidden absolute left-0 right-0 z-50 bg-background border-b border-border animate-slide-up">
           <div className="container py-4 flex flex-col gap-4">
-            <a 
-              href="#about" 
+            <a
+              href="#about"
               className="py-2 px-4 hover:bg-secondary rounded-md"
               onClick={() => setIsMenuOpen(false)}
             >
               About
             </a>
-            <a 
-              href="#menu" 
+            <a
+              href="#menu"
               className="py-2 px-4 hover:bg-secondary rounded-md"
               onClick={() => setIsMenuOpen(false)}
             >
               Menu
             </a>
-            <a 
-              href="#cafe-space" 
+            <a
+              href="#cafe-space"
               className="py-2 px-4 hover:bg-secondary rounded-md"
               onClick={() => setIsMenuOpen(false)}
             >
               Our Space
             </a>
-            <a 
-              href="#problem" 
+            <a
+              href="#problem"
               className="py-2 px-4 hover:bg-secondary rounded-md"
               onClick={() => setIsMenuOpen(false)}
             >
               Problem of the Day
             </a>
-            <a 
-              href="#leetpool" 
+            <a
+              href="#leetpool"
               className="py-2 px-4 hover:bg-secondary rounded-md"
               onClick={() => setIsMenuOpen(false)}
             >
               LeetPool
             </a>
-            
+
             {user ? (
               <div className="flex items-center justify-between border-t border-border pt-4">
                 <div className="flex items-center gap-3">
                   <Avatar className="h-10 w-10">
-                    <AvatarImage src={profile?.avatar_url} alt={profile?.username} />
-                    <AvatarFallback>{profile?.username?.substring(0, 2).toUpperCase()}</AvatarFallback>
+                    <AvatarImage
+                      src={profile?.avatar_url}
+                      alt={profile?.username}
+                    />
+                    <AvatarFallback>
+                      {profile?.username?.substring(0, 2).toUpperCase()}
+                    </AvatarFallback>
                   </Avatar>
                   <div>
                     <p className="text-sm font-medium">{profile?.full_name}</p>
-                    <p className="text-xs text-muted-foreground">@{profile?.username}</p>
+                    <p className="text-xs text-muted-foreground">
+                      @{profile?.username}
+                    </p>
                   </div>
                 </div>
                 <Button variant="ghost" size="sm" onClick={() => signOut()}>
@@ -153,16 +215,16 @@ const Navbar = () => {
               </div>
             ) : (
               <div className="flex flex-col gap-2 border-t border-border pt-4">
-                <Button 
-                  className="w-full justify-center" 
+                <Button
+                  className="w-full justify-center"
                   variant="outline"
-                  onClick={() => window.location.href = '/signin'}
+                  onClick={() => (window.location.href = "/signin")}
                 >
                   Sign in
                 </Button>
-                <Button 
+                <Button
                   className="w-full justify-center bg-amber-500 hover:bg-amber-600 text-white"
-                  onClick={() => window.location.href = '/signup'}
+                  onClick={() => (window.location.href = "/signup")}
                 >
                   <User className="h-4 w-4 mr-2" /> Sign up
                 </Button>

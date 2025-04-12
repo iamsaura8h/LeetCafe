@@ -34,9 +34,9 @@ const Footer = () => {
           <div>
             <h3 className="font-bold mb-4">Visit Us</h3>
             <address className="text-muted-foreground text-sm not-italic space-y-2">
-              <p>123 Algorithm Avenue</p>
+              <p>122 Algorithm Avenue</p>
               <p>Coding District</p>
-              <p>Tech City, TC 10101</p>
+              <p>Hitech City, Hyderabad</p>
               <p className="pt-2">Open 7 AM - 11 PM</p>
             </address>
           </div>
@@ -74,7 +74,7 @@ const Footer = () => {
               </div>
               <div>
                 <div className="text-muted-foreground mb-1">Password:</div>
-                <BinaryPassword word="leetcode" className="mt-1" />
+                <BinaryPassword word="solve" className="mt-1" />
               </div>
               <p className="text-xs text-muted-foreground mt-3">
                 Our password changes weekly. Current password valid until April 17th, 2025.
@@ -85,7 +85,7 @@ const Footer = () => {
         
         <div className="mt-12 pt-6 border-t border-border text-center text-sm text-muted-foreground">
           <p className="flex items-center justify-center gap-1">
-            Made with <Heart className="h-4 w-4 text-amber-500" /> for coffee enthusiasts who code
+            Made with <Heart className="h-4 w-4 text-amber-500" /> by <span className='text-white font-bold'>Saurabh</span> for coffee enthusiasts who code
           </p>
           <p className="mt-1">© 2025 LeetCafe. All rights reserved.</p>
         </div>
