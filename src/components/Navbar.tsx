@@ -69,7 +69,7 @@ const Navbar = () => {
           </a>
           <a
             href="#problem"
-            className="text-muted-foreground hover:text-foreground transition-colors"
+            className="text-muted-foreground hover:text-foreground transition-colors font-dancing"
           >
             Problem of the Day
           </a>

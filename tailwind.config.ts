@@ -73,6 +73,7 @@ export default {
 			},
 			fontFamily: {
 				mono: ['Source Code Pro', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
+				dancing: ['Dancing Script', 'cursive']
 			},
 			borderRadius: {
 				lg: 'var(--radius)',

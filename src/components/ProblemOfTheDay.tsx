@@ -39,9 +39,9 @@ const ProblemOfTheDay = () => {
       <div className="container">
         <div className="text-center mb-12">
           <Badge variant="outline" className="mb-2 font-mono">DAILY CHALLENGE</Badge>
-          <h2 className="text-3xl font-bold mb-4">Problem of the Day</h2>
+          <h2 className="text-6xl font-bold font-dancing mb-4">Problem of the Day</h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Solve today's problem in our café and get <span className="text-amber-500 font-bold">15% off</span> your order. New problem drops daily at midnight.
+            Solve today's problem in our café and get <span className="text-amber-500 font-bold">25% off</span> your order. New problem drops daily at midnight.
           </p>
         </div>
         
@@ -78,7 +78,7 @@ const ProblemOfTheDay = () => {
                 <h4 className="font-bold">Café Reward</h4>
               </div>
               <p className="text-sm">
-                Solve this problem while at our café and show your solution to a barista to receive 15% off your order!
+                Solve this problem while at our café and show your solution to a barista to receive 25% off your order!
               </p>
             </div>
           </CardContent>
@@ -99,12 +99,16 @@ const ProblemOfTheDay = () => {
             </div>
             
             <div className="flex gap-3">
-              <Button variant="outline" className="gap-2">
-                <Code className="h-4 w-4" /> Solution
-              </Button>
-              <Button className="bg-code-blue hover:bg-code-blue/80 gap-2">
-                Solve on LeetCode <ExternalLink className="h-4 w-4" />
-              </Button>
+              <a href="https://leetcode.com/problems/two-sum/solutions/6644179/java-beats-98-users-hashmaps-by-iamsaura-7noe/" target='_blank'>
+                <Button variant="outline" className="gap-2">
+                  <Code className="h-4 w-4" /> Solution
+                </Button>
+              </a>
+              <a href="https://leetcode.com/problems/two-sum/description/" target='_blank'>
+                <Button className="bg-code-blue hover:bg-code-blue/80 gap-2">
+                  Solve on LeetCode <ExternalLink className="h-4 w-4" />
+                </Button>
+              </a>
             </div>
           </CardFooter>
         </Card>
