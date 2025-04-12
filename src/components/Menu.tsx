@@ -57,7 +57,7 @@ const Menu = () => {
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredItems.map((item: MenuItem) => (
-            <Card key={item.id} className="bg-card border-border hover:shadow-md transition-shadow overflow-hidden">
+            <Card key={item.id} className="bg-card border-none shadow-2xl hover:shadow-md transition-shadow-lg overflow-hidden">
               <div className="w-full h-48 overflow-hidden">
                 <AspectRatio ratio={4/3} className="bg-muted">
                   <img 
