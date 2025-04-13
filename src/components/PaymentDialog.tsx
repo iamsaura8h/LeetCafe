@@ -8,7 +8,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { Cash, CreditCard } from 'lucide-react';
+import { Banknote, CreditCard } from 'lucide-react';
 
 interface PaymentDialogProps {
   isOpen: boolean;
@@ -36,7 +36,7 @@ const PaymentDialog = ({ isOpen, onClose, onComplete, amount }: PaymentDialogPro
             className="flex items-center justify-center gap-2 h-12"
             variant="outline"
           >
-            <Cash className="h-5 w-5" />
+            <Banknote className="h-5 w-5" />
             Pay at Counter
           </Button>
           
