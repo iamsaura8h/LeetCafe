@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Code2, Coffee, Menu, X, User, LogOut } from "lucide-react";
@@ -95,7 +94,7 @@ const Navbar = () => {
                 >
                   <Avatar className="h-14 w-14 border-8 border-[#1D2330]">
                     <AvatarImage
-                      src={profile?.avatar_url || "/images/katara.png"}
+                      src={profile?.avatar_choice || profile?.avatar_url || "/avatars/Katara.jpg"}
                       alt={profile?.username}
                     />
                     <AvatarFallback>
@@ -205,7 +204,7 @@ const Navbar = () => {
                 <div className="flex items-center gap-3">
                   <Avatar className="h-10 w-10">
                     <AvatarImage
-                      src={profile?.avatar_url || "/images/katara.png"}
+                      src={profile?.avatar_choice || profile?.avatar_url || "/avatars/Katara.jpg"}
                       alt={profile?.username}
                     />
                     <AvatarFallback>

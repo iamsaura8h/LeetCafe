@@ -9,8 +9,7 @@ import {
   DialogFooter,
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { CheckCircle, Clock } from 'lucide-react';
-import QRCode from 'react-qr-code';
+import { CheckCircle, Clock, Receipt } from 'lucide-react';
 
 interface PaymentDialogProps {
   isOpen: boolean;
@@ -24,9 +23,6 @@ const PaymentDialog = ({ isOpen, onClose, onComplete, amount }: PaymentDialogPro
   const [completed, setCompleted] = useState(false);
   const [timeLeft, setTimeLeft] = useState(600); // 10 minutes in seconds
   const orderId = `LC-${Math.floor(10000 + Math.random() * 90000)}`;
-  
-  // Mock payment UPI string (in a real app, this would come from your backend)
-  const upiPaymentString = `upi://pay?pa=leetcafe@ybl&pn=LeetCafe&am=${amount}&tr=${orderId}&cu=INR`;
   
   useEffect(() => {
     if (!isOpen || completed) return;
@@ -52,8 +48,8 @@ const PaymentDialog = ({ isOpen, onClose, onComplete, amount }: PaymentDialogPro
     return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   };
   
-  // For demo purposes, simulate payment completion when clicking on QR
-  const handleSimulatePayment = () => {
+  // Simulate payment completion
+  const handlePaymentComplete = () => {
     if (completed) return;
     
     setProcessing(true);
@@ -67,6 +63,16 @@ const PaymentDialog = ({ isOpen, onClose, onComplete, amount }: PaymentDialogPro
       setTimeout(() => {
         onComplete();
       }, 5000); // Show success for 5 seconds
+    }, 2000);
+  };
+  
+  // Handle paid at counter
+  const handlePaidAtCounter = () => {
+    setCompleted(true);
+    
+    // Complete the order immediately
+    setTimeout(() => {
+      onComplete();
     }, 2000);
   };
   
@@ -89,9 +95,13 @@ const PaymentDialog = ({ isOpen, onClose, onComplete, amount }: PaymentDialogPro
                   <p className="text-2xl font-bold">₹{amount}</p>
                 </div>
                 
+                {/* Simple QR code placeholder */}
                 <div className="flex justify-center p-2 bg-white rounded-lg my-6">
-                  <div className="p-2 bg-white rounded" onClick={handleSimulatePayment}>
-                    <QRCode value={upiPaymentString} size={200} />
+                  <div className="p-2 bg-white rounded border-2 border-dashed border-gray-300 w-48 h-48 flex items-center justify-center">
+                    <div className="text-center">
+                      <div className="text-xs text-muted-foreground mb-2">QR Code</div>
+                      <div className="font-mono text-xs">Scan to pay ₹{amount}</div>
+                    </div>
                   </div>
                 </div>
                 
@@ -104,18 +114,24 @@ const PaymentDialog = ({ isOpen, onClose, onComplete, amount }: PaymentDialogPro
                     </p>
                   </div>
                 </div>
+                
+                <div className="flex flex-col space-y-2 mt-4">
+                  <Button 
+                    onClick={handlePaymentComplete}
+                    className="w-full bg-amber-500 hover:bg-amber-600"
+                  >
+                    I've Paid Online
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    onClick={handlePaidAtCounter}
+                    className="w-full"
+                  >
+                    Pay at Counter
+                  </Button>
+                </div>
               </div>
             </div>
-            
-            <DialogFooter className="p-4 border-t">
-              <Button 
-                variant="outline" 
-                onClick={onClose}
-                className="w-full"
-              >
-                Cancel Order
-              </Button>
-            </DialogFooter>
           </>
         ) : (
           <div className="flex flex-col items-center justify-center p-8 text-center">

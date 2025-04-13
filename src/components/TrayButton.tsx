@@ -20,6 +20,9 @@ const TrayButton = () => {
   const { tray } = useTray();
   const { user, profile } = useAuth();
   const itemCount = tray.items.reduce((count, item) => count + item.quantity, 0);
+  
+  // Get avatar source with priority: avatar_choice, avatar_url, default
+  const avatarSrc = profile?.avatar_choice || profile?.avatar_url || '/avatars/Katara.jpg';
 
   return (
     <Sheet>
@@ -43,7 +46,7 @@ const TrayButton = () => {
             {user && profile && (
               <Avatar className="h-8 w-8">
                 <AvatarImage 
-                  src={profile.avatar_choice || profile.avatar_url || '/images/katara.png'} 
+                  src={avatarSrc} 
                   alt={profile.username} 
                 />
                 <AvatarFallback>

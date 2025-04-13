@@ -7,15 +7,20 @@ import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
 
 const avatarOptions = [
-  { id: 1, src: '/images/katara.png', alt: 'Avatar 1' },
-  { id: 2, src: '/images/a.jpg', alt: 'Avatar 2' },
-  { id: 3, src: '/images/b.jpg', alt: 'Avatar 3' },
-  { id: 4, src: '/images/barista.jpg', alt: 'Avatar 4' },
-  { id: 5, src: '/images/cafe.jpeg', alt: 'Avatar 5' },
-  { id: 6, src: '/images/cafeatmos.jpg', alt: 'Avatar 6' },
-  { id: 7, src: '/images/hero1.jpeg', alt: 'Avatar 7' },
-  { id: 8, src: '/images/ppl.jpg', alt: 'Avatar 8' },
-  { id: 9, src: '/images/study.jpg', alt: 'Avatar 9' },
+  { id: 1, src: '/avatars/Katara.jpg', alt: 'Katara' },
+  { id: 2, src: '/avatars/Aang.jpg', alt: 'Aang' },
+  { id: 3, src: '/avatars/Ai-Chan.jpg', alt: 'Ai Chan' },
+  { id: 4, src: '/avatars/Aunt-Cass.jpg', alt: 'Aunt Cass' },
+  { id: 5, src: '/avatars/Bodyguard.jpg', alt: 'Bodyguard' },
+  { id: 6, src: '/avatars/Buzz-Lightyear.png', alt: 'Buzz Lightyear' },
+  { id: 7, src: '/avatars/Dash-Parr.jpg', alt: 'Dash Parr' },
+  { id: 8, src: '/avatars/Frozone.jpg', alt: 'Frozone' },
+  { id: 9, src: '/avatars/Gingy.jpg', alt: 'Gingy' },
+  { id: 10, src: '/avatars/Kazama.jpg', alt: 'Kazama' },
+  { id: 11, src: '/avatars/Lambu.jpg', alt: 'Lambu' },
+  { id: 12, src: '/avatars/Metroman.jpg', alt: 'Metroman' },
+  { id: 13, src: '/avatars/MrBig.jpg', alt: 'Mr Big' },
+  { id: 14, src: '/avatars/Ty-Lee.jpg', alt: 'Ty Lee' },
 ];
 
 const AvatarSelector = () => {

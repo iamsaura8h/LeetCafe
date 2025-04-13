@@ -65,6 +65,11 @@ const TrayView = () => {
     );
   }
 
+  // Calculate tax and total
+  const subtotal = tray.total;
+  const tax = subtotal * 0.05;
+  const total = subtotal + tax;
+
   return (
     <div className="flex flex-col h-full">
       <div className="flex-grow overflow-y-auto py-4">
@@ -117,15 +122,15 @@ const TrayView = () => {
         <div className="mb-5">
           <div className="flex justify-between mb-1">
             <span>Subtotal</span>
-            <span>₹{tray.total.toFixed(2)}</span>
+            <span>₹{subtotal.toFixed(2)}</span>
           </div>
           <div className="flex justify-between mb-1 font-medium">
             <span>Tax (5%)</span>
-            <span>₹{(tray.total * 0.05).toFixed(2)}</span>
+            <span>₹{tax.toFixed(2)}</span>
           </div>
           <div className="flex justify-between text-lg font-bold">
             <span>Total</span>
-            <span>₹{(tray.total * 1.05).toFixed(2)}</span>
+            <span>₹{total.toFixed(2)}</span>
           </div>
         </div>
         
@@ -141,7 +146,7 @@ const TrayView = () => {
         isOpen={isPaymentOpen}
         onClose={() => setIsPaymentOpen(false)}
         onComplete={handlePaymentComplete}
-        amount={(tray.total * 1.05).toFixed(2)}
+        amount={total.toFixed(2)}
       />
     </div>
   );

@@ -127,6 +127,14 @@ export interface OrderStatus {
   status: 'pending' | 'preparing' | 'ready';
   message: string;
   orderId?: string;
+  items?: {
+    name: string;
+    quantity: number;
+    price: number;
+  }[];
+  subtotal?: number;
+  tax?: number;
+  total?: number;
 }
 
 interface TrayContextType {
@@ -228,32 +236,45 @@ export const TrayProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
       // Order placed successfully
       toast.success('Order placed successfully!');
-      clearTray();
       
-      // Set initial status with orderId
+      // Calculate tax and total
+      const subtotal = tray.total;
+      const tax = subtotal * 0.05;
+      const total = subtotal + tax;
+      
+      // Set initial status with orderId and items for receipt
       setOrderStatus({
         status: 'pending',
         message: 'Your order has been received and is being processed.',
-        orderId: orderId
+        orderId: orderId,
+        items: tray.items.map(item => ({
+          name: item.name,
+          quantity: item.quantity,
+          price: item.price
+        })),
+        subtotal,
+        tax,
+        total
       });
       
       // Simulate status updates
       setTimeout(() => {
-        setOrderStatus({
+        setOrderStatus(prev => prev ? {
+          ...prev,
           status: 'preparing',
-          message: 'Our baristas are now preparing your order.',
-          orderId: orderId
-        });
+          message: 'Our baristas are now preparing your order.'
+        } : null);
         
         setTimeout(() => {
-          setOrderStatus({
+          setOrderStatus(prev => prev ? {
+            ...prev,
             status: 'ready',
-            message: 'Your order is ready! Please collect it at the counter.',
-            orderId: orderId
-          });
+            message: 'Your order is ready! Please collect it at the counter.'
+          } : null);
         }, 8000);
       }, 5000);
       
+      clearTray();
       return true;
     } catch (error) {
       console.error('Error placing order:', error);
