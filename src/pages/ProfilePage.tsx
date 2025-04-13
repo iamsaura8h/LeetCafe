@@ -8,8 +8,9 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import OrderHistory from '@/components/OrderHistory';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { UserRound, History, LogOut, Coffee } from 'lucide-react';
+import { UserRound, History, LogOut, Coffee, Image } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import AvatarSelector from '@/components/AvatarSelector';
 
 const ProfilePage = () => {
   const { user, profile, signOut } = useAuth();
@@ -43,7 +44,10 @@ const ProfilePage = () => {
               <CardContent>
                 <div className="flex flex-col items-center text-center">
                   <Avatar className="h-24 w-24 mb-4">
-                    <AvatarImage src={profile.avatar_url || '/images/katara.png'} alt={profile.username} />
+                    <AvatarImage 
+                      src={profile.avatar_choice || profile.avatar_url || '/images/katara.png'} 
+                      alt={profile.username} 
+                    />
                     <AvatarFallback>
                       {profile.username?.substring(0, 2).toUpperCase()}
                     </AvatarFallback>
@@ -79,6 +83,9 @@ const ProfilePage = () => {
                   <TabsTrigger value="account" className="flex-1">
                     <UserRound className="mr-2 h-4 w-4" /> Account Details
                   </TabsTrigger>
+                  <TabsTrigger value="avatar" className="flex-1">
+                    <Image className="mr-2 h-4 w-4" /> Avatar
+                  </TabsTrigger>
                 </TabsList>
                 
                 <TabsContent value="orders">
@@ -112,6 +119,20 @@ const ProfilePage = () => {
                           {new Date(profile.created_at).toLocaleDateString()}
                         </p>
                       </div>
+                    </CardContent>
+                  </Card>
+                </TabsContent>
+                
+                <TabsContent value="avatar">
+                  <Card>
+                    <CardHeader>
+                      <CardTitle>Personalize Your Avatar</CardTitle>
+                      <CardDescription>
+                        Choose an avatar that represents you in LeetCafe
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <AvatarSelector />
                     </CardContent>
                   </Card>
                 </TabsContent>

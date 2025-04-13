@@ -3,6 +3,7 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 import { ShoppingBasket } from 'lucide-react';
 import { useTray } from '@/contexts/TrayContext';
+import { useAuth } from '@/contexts/AuthContext';
 import {
   Sheet,
   SheetContent,
@@ -13,9 +14,11 @@ import {
 } from '@/components/ui/sheet';
 import TrayView from './TrayView';
 import { Badge } from './ui/badge';
+import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 
 const TrayButton = () => {
   const { tray } = useTray();
+  const { user, profile } = useAuth();
   const itemCount = tray.items.reduce((count, item) => count + item.quantity, 0);
 
   return (
@@ -35,7 +38,20 @@ const TrayButton = () => {
       </SheetTrigger>
       <SheetContent className="overflow-y-auto">
         <SheetHeader>
-          <SheetTitle>Your Tray</SheetTitle>
+          <div className="flex items-center justify-between">
+            <SheetTitle>Your Tray</SheetTitle>
+            {user && profile && (
+              <Avatar className="h-8 w-8">
+                <AvatarImage 
+                  src={profile.avatar_choice || profile.avatar_url || '/images/katara.png'} 
+                  alt={profile.username} 
+                />
+                <AvatarFallback>
+                  {profile.username?.substring(0, 2).toUpperCase()}
+                </AvatarFallback>
+              </Avatar>
+            )}
+          </div>
           <SheetDescription>
             Review your items and place an order
           </SheetDescription>

@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useReducer, useEffect } from 'react';
 import { toast } from 'sonner';
 import { menuItems, MenuItem } from '@/data/menuItems';
@@ -127,6 +126,7 @@ const trayReducer = (state: TrayState, action: TrayAction): TrayState => {
 export interface OrderStatus {
   status: 'pending' | 'preparing' | 'ready';
   message: string;
+  orderId?: string;
 }
 
 interface TrayContextType {
@@ -188,6 +188,9 @@ export const TrayProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
 
     try {
+      // Generate a unique order ID
+      const orderId = `LC-${Math.floor(10000 + Math.random() * 90000)}`;
+      
       // First create the order
       const { data: orderData, error: orderError } = await supabase
         .from('orders')
@@ -227,23 +230,26 @@ export const TrayProvider: React.FC<{ children: React.ReactNode }> = ({ children
       toast.success('Order placed successfully!');
       clearTray();
       
-      // Set initial status
+      // Set initial status with orderId
       setOrderStatus({
         status: 'pending',
-        message: 'Your order has been received and is being processed.'
+        message: 'Your order has been received and is being processed.',
+        orderId: orderId
       });
       
       // Simulate status updates
       setTimeout(() => {
         setOrderStatus({
           status: 'preparing',
-          message: 'Our baristas are now preparing your order.'
+          message: 'Our baristas are now preparing your order.',
+          orderId: orderId
         });
         
         setTimeout(() => {
           setOrderStatus({
             status: 'ready',
-            message: 'Your order is ready! Please collect it at the counter.'
+            message: 'Your order is ready! Please collect it at the counter.',
+            orderId: orderId
           });
         }, 8000);
       }, 5000);
