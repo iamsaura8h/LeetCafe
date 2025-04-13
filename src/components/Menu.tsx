@@ -1,12 +1,12 @@
+
 import React, { useState } from 'react';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { menuItems, MenuItem } from '@/data/menuItems';
+import { menuItems, MenuItem as MenuItemType } from '@/data/menuItems';
 import { Coffee, Leaf, Utensils, Cake, Star } from 'lucide-react';
-import { AspectRatio } from "@/components/ui/aspect-ratio";
+import MenuItem from './MenuItem';
 
 const Menu = () => {
-  const [selectedCategory, setSelectedCategory] = useState<string>('coffee');
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   
   const categories = [
     { id: "coffee", name: "Coffee", icon: Coffee },
@@ -22,9 +22,9 @@ const Menu = () => {
   return (
     <section id="menu" className="py-16 bg-[#ebedef] dark:bg-secondary/80">
       <div className="container">
-        <div className="text-center text-blue-950 mb-12">
+        <div className="text-center mb-12">
           <Badge variant="outline" className="mb-2 font-mono text-black">OUR MENU</Badge>
-          <h2 className="text-3xl font-bold mb-4">Café Menu</h2>
+          <h2 className="text-3xl font-bold mb-4 text-blue-950">Café Menu</h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
             Quality ingredients, creative recipes, and programmer-themed treats to fuel your coding sessions.
           </p>
@@ -56,43 +56,8 @@ const Menu = () => {
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredItems.map((item: MenuItem) => (
-            <Card key={item.id} className="bg-card border-none shadow-2xl hover:shadow-md transition-shadow-lg overflow-hidden">
-              <div className="w-full h-48 overflow-hidden">
-                <AspectRatio ratio={4/3} className="bg-muted">
-                  <img 
-                    src={item.image || "/api/placeholder/400/300"} 
-                    alt={item.name} 
-                    className="object-cover w-full h-full" 
-                  />
-                </AspectRatio>
-              </div>
-              <CardHeader className="pb-3 border-b border-border">
-                <div className="flex justify-between items-start">
-                  <div>
-                    <CardTitle className="flex items-center gap-2">
-                      {item.name}
-                      {item.popular && <Star className="h-4 w-4 text-amber-500 inline" />}
-                    </CardTitle>
-                    <CardDescription className="mt-1">{item.description}</CardDescription>
-                  </div>
-                  <div className="font-mono font-bold text-amber-500">₹{item.price.toFixed(2)}</div>
-                </div>
-              </CardHeader>
-              <CardContent className="flex flex-wrap gap-2 pt-3">
-                {item.vegan && (
-                  <Badge variant="outline" className="bg-code-green/10 text-code-green border-code-green/20">
-                    <Leaf className="mr-1 h-3 w-3" /> Vegan
-                  </Badge>
-                )}
-                
-                {item.allergens?.map((allergen, index) => (
-                  <Badge key={index} variant="outline" className="bg-code-orange/10 text-code-orange border-code-orange/20 text-xs">
-                    {allergen}
-                  </Badge>
-                ))}
-              </CardContent>
-            </Card>
+          {filteredItems.map((item: MenuItemType) => (
+            <MenuItem key={item.id} item={item} />
           ))}
         </div>
       </div>

@@ -1,5 +1,6 @@
+
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Code2, Coffee, Menu, X, User, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
@@ -12,10 +13,12 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import TrayButton from "./TrayButton";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const { user, profile, signOut } = useAuth();
+  const navigate = useNavigate();
 
   // sticky scroll for navbar
   const [scrolled, setScrolled] = React.useState(false);
@@ -30,7 +33,6 @@ const Navbar = () => {
   }, []);
 
   return (
-    // <nav className="py-4 border-b border-border">
     <nav
       className={`sticky top-0 z-50 py-3 border-b border-border transition-colors duration-300 ${
         scrolled
@@ -81,7 +83,9 @@ const Navbar = () => {
           </a>
         </div>
 
-        <div className="hidden md:flex gap-2">
+        <div className="hidden md:flex items-center gap-2">
+          <TrayButton />
+          
           {user ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -90,9 +94,8 @@ const Navbar = () => {
                   className="relative h-10 w-10 rounded-full"
                 >
                   <Avatar className="h-14 w-14 border-8 border-[#1D2330]">
-                    {/* <AvatarImage src={profile?.avatar_url} alt={profile?.username} /> */}
                     <AvatarImage
-                      src={"/images/katara.png"}
+                      src={profile?.avatar_url || "/images/katara.png"}
                       alt={profile?.username}
                     />
                     <AvatarFallback>
@@ -113,6 +116,10 @@ const Navbar = () => {
                   </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={() => navigate('/profile')}>
+                  <User className="mr-2 h-4 w-4" />
+                  <span>Profile</span>
+                </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => signOut()}>
                   <LogOut className="mr-2 h-4 w-4" />
                   <span>Log out</span>
@@ -123,13 +130,13 @@ const Navbar = () => {
             <>
               <Button
                 variant="ghost"
-                onClick={() => (window.location.href = "/signin")}
+                onClick={() => navigate('/signin')}
               >
                 Sign in
               </Button>
               <Button
                 className="bg-amber-500 hover:bg-amber-600 text-white"
-                onClick={() => (window.location.href = "/signup")}
+                onClick={() => navigate('/signup')}
               >
                 <User className="h-4 w-4 mr-2" /> Sign up
               </Button>
@@ -137,18 +144,21 @@ const Navbar = () => {
           )}
         </div>
 
-        <Button
-          variant="ghost"
-          size="icon"
-          className="md:hidden"
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-        >
-          {isMenuOpen ? (
-            <X className="h-6 w-6" />
-          ) : (
-            <Menu className="h-6 w-6" />
-          )}
-        </Button>
+        <div className="flex md:hidden items-center gap-2">
+          <TrayButton />
+          
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          >
+            {isMenuOpen ? (
+              <X className="h-6 w-6" />
+            ) : (
+              <Menu className="h-6 w-6" />
+            )}
+          </Button>
+        </div>
       </div>
 
       {isMenuOpen && (
@@ -195,7 +205,7 @@ const Navbar = () => {
                 <div className="flex items-center gap-3">
                   <Avatar className="h-10 w-10">
                     <AvatarImage
-                      src={profile?.avatar_url}
+                      src={profile?.avatar_url || "/images/katara.png"}
                       alt={profile?.username}
                     />
                     <AvatarFallback>
@@ -209,22 +219,27 @@ const Navbar = () => {
                     </p>
                   </div>
                 </div>
-                <Button variant="ghost" size="sm" onClick={() => signOut()}>
-                  <LogOut className="h-4 w-4 mr-2" /> Logout
-                </Button>
+                <div className="flex gap-2">
+                  <Button variant="ghost" size="sm" onClick={() => navigate('/profile')}>
+                    <User className="h-4 w-4 mr-1" /> Profile
+                  </Button>
+                  <Button variant="ghost" size="sm" onClick={() => signOut()}>
+                    <LogOut className="h-4 w-4 mr-1" /> Logout
+                  </Button>
+                </div>
               </div>
             ) : (
               <div className="flex flex-col gap-2 border-t border-border pt-4">
                 <Button
                   className="w-full justify-center"
                   variant="outline"
-                  onClick={() => (window.location.href = "/signin")}
+                  onClick={() => navigate('/signin')}
                 >
                   Sign in
                 </Button>
                 <Button
                   className="w-full justify-center bg-amber-500 hover:bg-amber-600 text-white"
-                  onClick={() => (window.location.href = "/signup")}
+                  onClick={() => navigate('/signup')}
                 >
                   <User className="h-4 w-4 mr-2" /> Sign up
                 </Button>
