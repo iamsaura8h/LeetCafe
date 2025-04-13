@@ -28,7 +28,6 @@ const initialState: TrayState = {
   total: 0,
 };
 
-// Load tray from localStorage if available
 const loadInitialState = (): TrayState => {
   if (typeof window === 'undefined') return initialState;
   
@@ -48,7 +47,6 @@ const trayReducer = (state: TrayState, action: TrayAction): TrayState => {
       const existingItemIndex = state.items.findIndex(item => item.id === action.payload.id);
       
       if (existingItemIndex !== -1) {
-        // Item already exists, increment quantity
         const updatedItems = [...state.items];
         updatedItems[existingItemIndex] = {
           ...updatedItems[existingItemIndex],
@@ -60,7 +58,6 @@ const trayReducer = (state: TrayState, action: TrayAction): TrayState => {
           total: calculateTotal(updatedItems),
         };
       } else {
-        // New item
         const updatedItems = [...state.items, action.payload];
         
         newState = {
@@ -85,7 +82,6 @@ const trayReducer = (state: TrayState, action: TrayAction): TrayState => {
       const { id, quantity } = action.payload;
       
       if (quantity <= 0) {
-        // Remove item if quantity is 0 or negative
         const updatedItems = state.items.filter(item => item.id !== id);
         
         newState = {
@@ -93,7 +89,6 @@ const trayReducer = (state: TrayState, action: TrayAction): TrayState => {
           total: calculateTotal(updatedItems),
         };
       } else {
-        // Update quantity
         const updatedItems = state.items.map(item =>
           item.id === id ? { ...item, quantity } : item
         );
@@ -115,7 +110,6 @@ const trayReducer = (state: TrayState, action: TrayAction): TrayState => {
       return state;
   }
   
-  // Save to localStorage
   if (typeof window !== 'undefined') {
     localStorage.setItem('leetcafe-tray', JSON.stringify(newState));
   }
@@ -124,17 +118,18 @@ const trayReducer = (state: TrayState, action: TrayAction): TrayState => {
 };
 
 export interface OrderStatus {
-  status: 'pending' | 'preparing' | 'ready';
+  status: 'ready';
   message: string;
-  orderId?: string;
-  items?: {
+  orderId: string;
+  items: {
     name: string;
     quantity: number;
     price: number;
   }[];
-  subtotal?: number;
-  tax?: number;
-  total?: number;
+  subtotal: number;
+  tax: number;
+  total: number;
+  paymentMethod: 'counter' | 'online';
 }
 
 interface TrayContextType {
@@ -143,7 +138,7 @@ interface TrayContextType {
   removeItem: (id: number) => void;
   updateQuantity: (id: number, quantity: number) => void;
   clearTray: () => void;
-  placeOrder: () => Promise<boolean>;
+  placeOrder: (paymentMethod: 'counter' | 'online') => Promise<boolean>;
   orderStatus: OrderStatus | null;
 }
 
@@ -154,7 +149,6 @@ export const TrayProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [orderStatus, setOrderStatus] = React.useState<OrderStatus | null>(null);
   const { user } = useAuth();
 
-  // Save tray to localStorage whenever it changes
   useEffect(() => {
     localStorage.setItem('leetcafe-tray', JSON.stringify(tray));
   }, [tray]);
@@ -184,7 +178,7 @@ export const TrayProvider: React.FC<{ children: React.ReactNode }> = ({ children
     dispatch({ type: 'CLEAR_TRAY' });
   };
 
-  const placeOrder = async (): Promise<boolean> => {
+  const placeOrder = async (paymentMethod: 'counter' | 'online'): Promise<boolean> => {
     if (!user) {
       toast.error('Please sign in to place an order');
       return false;
@@ -196,16 +190,15 @@ export const TrayProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
 
     try {
-      // Generate a unique order ID
       const orderId = `LC-${Math.floor(10000 + Math.random() * 90000)}`;
       
-      // First create the order
       const { data: orderData, error: orderError } = await supabase
         .from('orders')
         .insert({
           user_id: user.id,
           total_price: tray.total,
-          status: 'pending'
+          status: 'ready',
+          payment_method: paymentMethod
         })
         .select('id')
         .single();
@@ -216,7 +209,6 @@ export const TrayProvider: React.FC<{ children: React.ReactNode }> = ({ children
         return false;
       }
 
-      // Then create order items
       const orderItems = tray.items.map(item => ({
         order_id: orderData.id,
         item_name: item.name,
@@ -234,18 +226,15 @@ export const TrayProvider: React.FC<{ children: React.ReactNode }> = ({ children
         return false;
       }
 
-      // Order placed successfully
       toast.success('Order placed successfully!');
       
-      // Calculate tax and total
       const subtotal = tray.total;
       const tax = subtotal * 0.05;
       const total = subtotal + tax;
       
-      // Set initial status with orderId and items for receipt
       setOrderStatus({
-        status: 'pending',
-        message: 'Your order has been received and is being processed.',
+        status: 'ready',
+        message: 'Your order is ready! Please collect it at the counter.',
         orderId: orderId,
         items: tray.items.map(item => ({
           name: item.name,
@@ -254,25 +243,9 @@ export const TrayProvider: React.FC<{ children: React.ReactNode }> = ({ children
         })),
         subtotal,
         tax,
-        total
+        total,
+        paymentMethod
       });
-      
-      // Simulate status updates
-      setTimeout(() => {
-        setOrderStatus(prev => prev ? {
-          ...prev,
-          status: 'preparing',
-          message: 'Our baristas are now preparing your order.'
-        } : null);
-        
-        setTimeout(() => {
-          setOrderStatus(prev => prev ? {
-            ...prev,
-            status: 'ready',
-            message: 'Your order is ready! Please collect it at the counter.'
-          } : null);
-        }, 8000);
-      }, 5000);
       
       clearTray();
       return true;

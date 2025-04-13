@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useTray } from '@/contexts/TrayContext';
 import { Button } from '@/components/ui/button';
@@ -39,8 +38,8 @@ const TrayView = () => {
     setIsPaymentOpen(true);
   };
 
-  const handlePaymentComplete = async () => {
-    const success = await placeOrder();
+  const handlePaymentComplete = async (paymentMethod: 'counter' | 'online') => {
+    await placeOrder(paymentMethod);
     setIsPaymentOpen(false);
   };
 
@@ -67,7 +66,6 @@ const TrayView = () => {
     );
   }
 
-  // Calculate tax and total
   const subtotal = tray.total;
   const tax = subtotal * 0.05;
   const total = subtotal + tax;
