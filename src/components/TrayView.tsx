@@ -58,9 +58,11 @@ const TrayView = () => {
         <p className="text-muted-foreground text-sm mb-4">
           Add some delicious items from our menu to get started.
         </p>
-        <Button variant="outline" size="sm" onClick={() => document.getElementById('menu')?.scrollIntoView({ behavior: 'smooth' })}>
-          View Menu
-        </Button>
+        <a href="#menu">
+          <Button variant="outline" size="sm" >
+            View Menu
+          </Button>
+        </a>
       </div>
     );
   }

@@ -59,11 +59,13 @@ const OrderStatus = ({ status }: OrderStatusProps) => {
     // Receipt view when order is ready
     return (
       <div className="flex flex-col items-center text-center py-4">
-        <div className="bg-white border rounded-md shadow-sm max-w-sm w-full mx-auto">
+        <div className="bg-[#DDDEDF]  border text-black rounded-md shadow-sm max-w-sm w-full mx-auto">
           {/* Receipt Header */}
           <div className="border-b p-4">
             <div className="flex justify-between items-center">
-              <h2 className="text-xl font-bold">Receipt</h2>
+            <h1 className="font-semibold text-xl mb-2 flex items-center">
+              <Coffee className="h-5 w-5 mr-0.5 mt-0.5" /> LeetCafe
+            </h1>
               <div className="text-right">
                 <div className="text-xs text-muted-foreground">
                   {format(new Date(), 'MMM d, yyyy, h:mm a')}
@@ -75,9 +77,9 @@ const OrderStatus = ({ status }: OrderStatusProps) => {
           
           {/* Order Items */}
           <div className="p-4">
-            <h3 className="font-semibold mb-2 flex items-center">
-              <Coffee className="h-4 w-4 mr-1" /> LeetCafe
-            </h3>
+            <h2 className="font-semibold mb-2 flex items-center">
+              Reciept
+            </h2>
             
             <div className="space-y-2 my-4">
               {status.items && status.items.map((item, index) => (
@@ -108,13 +110,15 @@ const OrderStatus = ({ status }: OrderStatusProps) => {
           </div>
           
           {/* Show to staff message */}
-          <div className={`mt-2 mb-4 text-center ${isVisible ? 'opacity-100' : 'opacity-40'} transition-opacity duration-500`}>
+          {/* <div className={`mt-2 mb-4 text-center ${isVisible ? 'opacity-100' : 'opacity-40'} transition-opacity duration-500`}>
             <div className="inline-block bg-green-100 text-green-700 px-4 py-2 rounded-full font-bold">
               Show this to the barista
             </div>
-          </div>
+          </div> */}
           
-          <div className="border-t p-4">
+         
+        </div>
+        <div className="border-t p-4 w-full">
             <Button 
               variant="default" 
               className="bg-amber-500 hover:bg-amber-600 w-full"
@@ -123,7 +127,6 @@ const OrderStatus = ({ status }: OrderStatusProps) => {
               Place New Order
             </Button>
           </div>
-        </div>
       </div>
     );
   }

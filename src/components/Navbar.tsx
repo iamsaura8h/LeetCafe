@@ -83,7 +83,7 @@ const Navbar = () => {
         </div>
 
         <div className="hidden md:flex items-center gap-2">
-          <TrayButton />
+          <TrayButton  />
           
           {user ? (
             <DropdownMenu>
@@ -92,7 +92,7 @@ const Navbar = () => {
                   variant="ghost"
                   className="relative h-10 w-10 rounded-full"
                 >
-                  <Avatar className="h-14 w-14 border-8 border-[#1D2330]">
+                  <Avatar className="h-10 w-10 border-2 border-[#1D2330]">
                     <AvatarImage
                       src={profile?.avatar_choice || profile?.avatar_url || "/avatars/Katara.jpg"}
                       alt={profile?.username}

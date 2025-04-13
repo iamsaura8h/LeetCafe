@@ -27,12 +27,13 @@ const TrayButton = () => {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button variant="ghost" className="relative" size="icon">
+        <Button variant="ghost" className="relative mr-5" size="icon">
           <ShoppingBasket className="h-5 w-5" />
+          {/* <img src="basket.png" alt="tray" /> */}
           {itemCount > 0 && (
             <Badge 
               variant="destructive"
-              className="absolute -top-2 -right-2 h-5 w-5 p-0 flex items-center justify-center"
+              className="absolute -top-0 -right-0 h-5 w-5 p-0 flex items-center justify-center"
             >
               {itemCount}
             </Badge>
@@ -43,7 +44,7 @@ const TrayButton = () => {
         <SheetHeader>
           <div className="flex items-center justify-between">
             <SheetTitle>Your Tray</SheetTitle>
-            {user && profile && (
+            {/* {user && profile && (
               <Avatar className="h-8 w-8">
                 <AvatarImage 
                   src={avatarSrc} 
@@ -53,7 +54,7 @@ const TrayButton = () => {
                   {profile.username?.substring(0, 2).toUpperCase()}
                 </AvatarFallback>
               </Avatar>
-            )}
+            )} */}
           </div>
           <SheetDescription>
             Review your items and place an order
