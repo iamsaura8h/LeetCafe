@@ -197,8 +197,8 @@ export const TrayProvider: React.FC<{ children: React.ReactNode }> = ({ children
         .insert({
           user_id: user.id,
           total_price: tray.total,
-          status: 'ready',
-          payment_method: paymentMethod
+          // status: 'ready',
+          // payment_method: paymentMethod
         })
         .select('id')
         .single();

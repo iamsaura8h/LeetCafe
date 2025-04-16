@@ -17,7 +17,7 @@ const CafeSpace = () => {
   return (
     <section id="cafe-space" className="py-16 relative">
       {/* Subtle background pattern */}
-      <div className="absolute inset-0 bg-[url(backgrounds/cubess.png)] opacity-20"></div>
+      <div className="absolute inset-0 bg-[url(/backgrounds/cubess.png)] opacity-20"></div>
       
       <div className="container relative z-10">
         <div className="text-center mb-12">
