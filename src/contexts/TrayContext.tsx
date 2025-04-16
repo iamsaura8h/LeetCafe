@@ -199,6 +199,8 @@ export const TrayProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const tax = subtotal * 0.05;
       const total = subtotal + tax;
       
+      console.log('Placing order with payment method:', paymentMethod);
+      
       // Insert order into database
       const { data: orderData, error: orderError } = await supabase
         .from('orders')
@@ -216,6 +218,8 @@ export const TrayProvider: React.FC<{ children: React.ReactNode }> = ({ children
         toast.error('Failed to place order. Please try again.');
         return false;
       }
+
+      console.log('Order created with ID:', orderData.id);
 
       // Insert order items
       const orderItems = tray.items.map(item => ({
