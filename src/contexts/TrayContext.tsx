@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useReducer, useEffect } from 'react';
 import { toast } from 'sonner';
 import { menuItems, MenuItem } from '@/data/menuItems';
@@ -206,8 +205,8 @@ export const TrayProvider: React.FC<{ children: React.ReactNode }> = ({ children
         .from('orders')
         .insert({
           user_id: user.id,
-          total_price: total, // Use the calculated total with tax
-          status: 'ready', // Set status directly to ready
+          total_price: total,
+          status: 'ready',
           payment_method: paymentMethod
         })
         .select('id')
