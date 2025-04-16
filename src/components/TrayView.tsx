@@ -40,14 +40,23 @@ const TrayView = () => {
   };
 
   const handlePaymentComplete = async (paymentMethod: 'counter' | 'online') => {
-    await placeOrder(paymentMethod);
+    // Close dialog first to show loading state
     setIsPaymentOpen(false);
+    
+    // Place the order
+    const success = await placeOrder(paymentMethod);
+    
+    if (!success) {
+      toast.error('Failed to place order. Please try again.');
+    }
   };
 
+  // If we have order status, show the receipt
   if (orderStatus) {
     return <OrderStatus status={orderStatus} />;
   }
 
+  // If tray is empty, show empty state
   if (tray.items.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-12 text-center">
@@ -67,6 +76,7 @@ const TrayView = () => {
     );
   }
 
+  // Calculate totals
   const subtotal = tray.total;
   const tax = subtotal * 0.05;
   const total = subtotal + tax;

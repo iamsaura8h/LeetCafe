@@ -20,6 +20,11 @@ interface PaymentDialogProps {
 const PaymentDialog = ({ isOpen, onClose, onComplete, amount }: PaymentDialogProps) => {
   const orderId = `LC-${Math.floor(10000 + Math.random() * 90000)}`;
   
+  const handlePaymentSelection = (paymentMethod: 'counter' | 'online') => {
+    // Call the onComplete callback with the selected payment method
+    onComplete(paymentMethod);
+  };
+  
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent className="sm:max-w-[400px]">
@@ -32,7 +37,7 @@ const PaymentDialog = ({ isOpen, onClose, onComplete, amount }: PaymentDialogPro
         
         <div className="flex flex-col gap-3 mt-4">
           <Button 
-            onClick={() => onComplete('counter')}
+            onClick={() => handlePaymentSelection('counter')}
             className="flex items-center justify-center gap-2 h-12"
             variant="outline"
           >
@@ -41,7 +46,7 @@ const PaymentDialog = ({ isOpen, onClose, onComplete, amount }: PaymentDialogPro
           </Button>
           
           <Button 
-            onClick={() => onComplete('online')}
+            onClick={() => handlePaymentSelection('online')}
             className="flex items-center justify-center gap-2 h-12 bg-amber-500 hover:bg-amber-600"
           >
             <CreditCard className="h-5 w-5" />
