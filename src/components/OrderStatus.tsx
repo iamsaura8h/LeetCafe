@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Coffee, MapPin, Phone, Clock } from 'lucide-react';
+import { Coffee, MapPin, Phone, Clock, Calendar, Check } from 'lucide-react';
 import { OrderStatus as OrderStatusType } from '@/contexts/TrayContext';
 import { Button } from './ui/button';
 import { Separator } from './ui/separator';
@@ -12,6 +12,7 @@ interface OrderStatusProps {
 
 const OrderStatus = ({ status }: OrderStatusProps) => {
   const { orderId, items, subtotal, tax, total, paymentMethod } = status;
+  const orderDate = new Date();
   
   return (
     <div className="flex flex-col items-center text-center py-4">
@@ -26,14 +27,16 @@ const OrderStatus = ({ status }: OrderStatusProps) => {
           <div className="flex justify-between items-center">
             <div className="text-sm">
               <div className="font-semibold">Order #{orderId}</div>
-              <div className="text-xs text-gray-500">
-                {format(new Date(), 'MMM d, yyyy')}
+              <div className="text-xs text-gray-500 flex items-center">
+                <Calendar className="h-3 w-3 mr-1" />
+                {format(orderDate, 'MMM d, yyyy')}
               </div>
             </div>
             <div className="text-sm">
               <div className="font-semibold">{paymentMethod === 'counter' ? 'Pay at Counter' : 'Paid Online'}</div>
-              <div className="text-xs text-gray-500">
-                {format(new Date(), 'h:mm a')}
+              <div className="text-xs text-gray-500 flex items-center">
+                <Clock className="h-3 w-3 mr-1" />
+                {format(orderDate, 'h:mm a')}
               </div>
             </div>
           </div>
@@ -41,12 +44,15 @@ const OrderStatus = ({ status }: OrderStatusProps) => {
         
         {/* Order Items */}
         <div className="p-4">
-          <h2 className="font-semibold mb-3 text-left">Order Details</h2>
+          <h2 className="font-semibold mb-3 text-left flex items-center">
+            <Check className="h-4 w-4 mr-1 text-green-600" /> 
+            Order Ready for Pickup
+          </h2>
           
           <div className="space-y-2 mb-4">
             {items && items.map((item, index) => (
               <div key={index} className="flex justify-between text-sm">
-                <span>{item.name} × {item.quantity}</span>
+                <span className="flex-1">{item.name} × {item.quantity}</span>
                 <span>₹{(item.price * item.quantity).toFixed(2)}</span>
               </div>
             ))}

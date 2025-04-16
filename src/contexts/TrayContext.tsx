@@ -1,3 +1,4 @@
+
 import React, { createContext, useContext, useReducer, useEffect } from 'react';
 import { toast } from 'sonner';
 import { menuItems, MenuItem } from '@/data/menuItems';
@@ -190,15 +191,24 @@ export const TrayProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
 
     try {
+      // Generate a readable order ID
       const orderId = `LC-${Math.floor(10000 + Math.random() * 90000)}`;
       
+      // Calculate totals
+      const subtotal = tray.total;
+      const tax = subtotal * 0.05;
+      const total = subtotal + tax;
+      
+      console.log('Placing order with payment method:', paymentMethod);
+      
+      // Insert order into database
       const { data: orderData, error: orderError } = await supabase
         .from('orders')
         .insert({
           user_id: user.id,
-          total_price: tray.total,
-          // status: 'ready',
-          // payment_method: paymentMethod
+          total_price: total, // Use the calculated total with tax
+          status: 'ready', // Set status directly to ready
+          payment_method: paymentMethod
         })
         .select('id')
         .single();
@@ -209,6 +219,9 @@ export const TrayProvider: React.FC<{ children: React.ReactNode }> = ({ children
         return false;
       }
 
+      console.log('Order created with ID:', orderData.id);
+
+      // Insert order items
       const orderItems = tray.items.map(item => ({
         order_id: orderData.id,
         item_name: item.name,
@@ -226,12 +239,10 @@ export const TrayProvider: React.FC<{ children: React.ReactNode }> = ({ children
         return false;
       }
 
+      // Show success message
       toast.success('Order placed successfully!');
       
-      const subtotal = tray.total;
-      const tax = subtotal * 0.05;
-      const total = subtotal + tax;
-      
+      // Set order status for immediate receipt display
       setOrderStatus({
         status: 'ready',
         message: 'Your order is ready! Please collect it at the counter.',
@@ -247,6 +258,7 @@ export const TrayProvider: React.FC<{ children: React.ReactNode }> = ({ children
         paymentMethod
       });
       
+      // Clear the tray after successful order
       clearTray();
       return true;
     } catch (error) {
