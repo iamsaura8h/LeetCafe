@@ -15,6 +15,7 @@ const TrayView = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [isPaymentOpen, setIsPaymentOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleQuantityChange = (id: number, delta: number, currentQuantity: number) => {
     const newQuantity = currentQuantity + delta;
@@ -42,12 +43,20 @@ const TrayView = () => {
   const handlePaymentComplete = async (paymentMethod: 'counter' | 'online') => {
     // Close dialog first to show loading state
     setIsPaymentOpen(false);
+    setIsLoading(true);
     
-    // Place the order
-    const success = await placeOrder(paymentMethod);
-    
-    if (!success) {
-      toast.error('Failed to place order. Please try again.');
+    try {
+      // Place the order
+      const success = await placeOrder(paymentMethod);
+      
+      if (!success) {
+        toast.error('Failed to place order. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error during order placement:', error);
+      toast.error('An unexpected error occurred. Please try again.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -98,6 +107,7 @@ const TrayView = () => {
                   size="icon" 
                   className="h-7 w-7" 
                   onClick={() => handleQuantityChange(item.id, -1, item.quantity)}
+                  disabled={isLoading}
                 >
                   <Minus className="h-3 w-3" />
                 </Button>
@@ -109,6 +119,7 @@ const TrayView = () => {
                   size="icon" 
                   className="h-7 w-7" 
                   onClick={() => handleQuantityChange(item.id, 1, item.quantity)}
+                  disabled={isLoading}
                 >
                   <Plus className="h-3 w-3" />
                 </Button>
@@ -118,6 +129,7 @@ const TrayView = () => {
                   size="icon" 
                   className="h-7 w-7 text-destructive" 
                   onClick={() => removeItem(item.id)}
+                  disabled={isLoading}
                 >
                   <Trash2 className="h-4 w-4" />
                 </Button>
@@ -148,8 +160,18 @@ const TrayView = () => {
         <Button 
           className="w-full bg-amber-500 hover:bg-amber-600" 
           onClick={handleOrderClick}
+          disabled={isLoading}
         >
-          Place Order <ArrowRight className="ml-2 h-4 w-4" />
+          {isLoading ? (
+            <>
+              <span className="mr-2">Processing...</span>
+              <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+            </>
+          ) : (
+            <>
+              Place Order <ArrowRight className="ml-2 h-4 w-4" />
+            </>
+          )}
         </Button>
       </div>
 
