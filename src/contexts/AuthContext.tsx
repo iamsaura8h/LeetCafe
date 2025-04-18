@@ -78,18 +78,33 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  const generateRandomAvatar = (username: string) => {
-    // Use themed avatars that match the cafe's aesthetic
-    const themes = [
-      'initials', 'micah', 'personas', 'bottts', 'avataaars', 'lorelei'
+  const getRandomAvatar = () => {
+    // List of avatar options from the public/avatars folder
+    const avatarOptions = [
+      '/avatars/Katara.jpg',
+      '/avatars/Aang.jpg',
+      '/avatars/Ai-Chan.jpg',
+      '/avatars/Aunt-Cass.jpg',
+      '/avatars/Bodyguard.jpg',
+      '/avatars/Buzz-Lightyear.png',
+      '/avatars/Dash-Parr.jpg',
+      '/avatars/Frozone.jpg',
+      '/avatars/Gingy.jpg',
+      '/avatars/Kazama.jpg',
+      '/avatars/Lambu.jpg',
+      '/avatars/Metroman.jpg',
+      '/avatars/MrBig.jpg',
+      '/avatars/Ty-Lee.jpg',
     ];
-    const randomTheme = themes[Math.floor(Math.random() * themes.length)];
-    return `https://avatars.dicebear.com/api/${randomTheme}/${username}.svg`;
+    
+    // Select a random avatar from the options
+    return avatarOptions[Math.floor(Math.random() * avatarOptions.length)];
   };
 
   const signUp = async (email: string, password: string, username: string, name: string) => {
     try {
-      const avatar_url = generateRandomAvatar(username);
+      // Get a random avatar from our selection
+      const avatar_url = getRandomAvatar();
       
       const { error } = await supabase.auth.signUp({
         email,

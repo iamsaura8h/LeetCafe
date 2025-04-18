@@ -35,14 +35,25 @@ const LeetPool = () => {
         }
         
         // Map Supabase profiles to the Coder format
-        const profileCoders = profiles.map((profile: any, index: number) => ({
-          id: profile.id,
-          name: profile.full_name,
-          username: profile.username,
-          streak: profile.streak || Math.floor(Math.random() * 50),
-          profileImage: profile.avatar_url || `https://avatars.dicebear.com/api/initials/${profile.username}.svg`,
-          badges: ["LeetCafe Member", "Learning Path"]
-        }));
+        const profileCoders = profiles.map((profile: any, index: number) => {
+          // Get proper avatar URL - use avatar_choice first, then avatar_url, or default
+          let avatarUrl = profile.avatar_choice || profile.avatar_url;
+          
+          // Check if the avatar URL is a DiceBear URL that might not work
+          if (!avatarUrl || avatarUrl.includes('dicebear.com')) {
+            // Use a default avatar from our public folder
+            avatarUrl = `/avatars/Aang.jpg`;
+          }
+          
+          return {
+            id: profile.id,
+            name: profile.full_name,
+            username: profile.username,
+            streak: profile.streak || Math.floor(Math.random() * 50),
+            profileImage: avatarUrl,
+            badges: ["LeetCafe Member", "Learning Path"]
+          };
+        });
         
         // Add predefined coders if there aren't enough profiles
         const predefinedCoders: Coder[] = [
@@ -104,7 +115,6 @@ const LeetPool = () => {
 
   return (
     <section id="leetpool" className="py-16 relative bg-secondary/50">
-      {/* <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/brick-wall.png')] opacity-25"></div> */}
       <div className="absolute inset-0 bg-[url(/backgrounds/brick-wall.png)] opacity-25"></div>
     
       <div className="container relative z-10">
@@ -133,7 +143,8 @@ const LeetPool = () => {
                         alt={coder.name}
                         className="rounded-full h-16 w-16 object-cover border-2 border-border" 
                         onError={(e) => {
-                          (e.target as HTMLImageElement).src = `https://avatars.dicebear.com/api/initials/${coder.username}.svg`;
+                          // If image fails to load, use a default avatar
+                          (e.target as HTMLImageElement).src = `/avatars/Aang.jpg`;
                         }}
                       />
                       {index <= 2 && (
