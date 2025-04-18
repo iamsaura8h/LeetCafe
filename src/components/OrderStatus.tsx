@@ -20,9 +20,9 @@ const OrderStatus = ({ status }: OrderStatusProps) => {
     let y = 15;
     
     // Add better fonts
-    doc.addFont('helvetica', 'normal');
-    doc.addFont('helvetica', 'bold');
-    doc.addFont('courier', 'normal');
+    doc.setFont('helvetica', 'normal');
+    doc.setFont('helvetica', 'bold');
+    doc.setFont('courier', 'normal');
 
     // Header with better styling
     doc.setFontSize(22);

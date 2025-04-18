@@ -18,10 +18,10 @@ const Hero = () => {
     <section id="about" className="py-16 md:py-24 relative overflow-hidden">
       {/* Background image with overlay */}
       <div 
-        className="absolute inset-0 bg-[url(/images/a.jpg)] 
+        className="absolute inset-0 bg-[url(/backgrounds/bb.jpg)] 
         bg-cover bg-center bg-fixed"
         style={{ 
-          opacity: 0.15,
+          opacity: 0.7,
         }}
       ></div>
       
