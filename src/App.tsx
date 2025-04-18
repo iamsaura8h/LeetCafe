@@ -11,6 +11,7 @@ import ProfilePage from "./pages/ProfilePage";
 import NotFound from "./pages/NotFound";
 import { AuthProvider } from "./contexts/AuthContext";
 import { TrayProvider } from "./contexts/TrayContext";
+import LeetCodeAPI from "./components/test";
 
 // Create a new QueryClient instance
 const queryClient = new QueryClient();
@@ -30,6 +31,7 @@ const App = () => {
                 <Route path="/signup" element={<SignupPage />} />
                 <Route path="/signin" element={<SigninPage />} />
                 <Route path="/profile" element={<ProfilePage />} />
+                <Route path='/test' element={<LeetCodeAPI />} />
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
               </Routes>
